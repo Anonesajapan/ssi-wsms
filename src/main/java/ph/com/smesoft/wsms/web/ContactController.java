@@ -24,78 +24,44 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
-import ph.com.smesoft.wsms.domain.LocationType;
+import ph.com.smesoft.wsms.domain.Contact;
+import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.dto.SearchForm;
-import ph.com.smesoft.wsms.service.LocationTypeService;
+import ph.com.smesoft.wsms.service.ContactService;
+import ph.com.smesoft.wsms.service.CustomerTypeService;
 
 @Controller
-@RequestMapping("/LocationType")
-public class LocationTypeController {
+@RequestMapping("/contact")
+public class ContactController{
 
 	@Autowired
-    LocationTypeService LocationTypeService;
+    ContactService contactService;
 
 	
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid LocationType LocationType, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "text/html")
+    public String create(@Valid Contact contact, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
 		
-		if(LocationTypeService.checkIfLocationTypeExist(LocationType.getLocationTypeName().trim()) > 0){
-			 bindingResult.reject("locationtype", "Location Type already exists.");
-			 
-			 populateEditForm(uiModel, LocationType);
-	        	 //uiModel.asMap().clear();
-	             
-             return "LocationType/create";
-        }
-	     if(!LocationTypeService.checkRegex(LocationType.getLocationTypeName().trim(), "^([^0-9]*)$")){
-	    	 bindingResult.reject("LocationType", "Invalid entry of Characters");
-	    	 populateEditForm(uiModel, LocationType);
-	        	 //uiModel.asMap().clear();
-	         return "LocationType/create";
-	    } 
 		if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, LocationType);
-            return "LocationType/create";
+            populateEditForm(uiModel, contact);
+            return "contact/create";
         }
-        
-        /*if((int) LocationTypeService.checkIfLocationTypeExist(LocationType.getLocationTypeName()) > 0){
-            bindingResult.reject("LocationType", "Floor Number already exists.");
-            return "LocationType/create";
-        } */
-        
-        if(!LocationTypeService.checkRegex(LocationType.getLocationTypeName().trim(), "^([^0-9]*)$")){
-        	 populateEditForm(uiModel, LocationType);
-        	 //uiModel.asMap().clear();
-             
-        	  return "LocationType/create";
-        }
-        
+         
         uiModel.asMap().clear();
-        LocationTypeService.saveLocationType(LocationType);
-        return "redirect:/LocationType/" + encodeUrlPathSegment(LocationType.getId().toString(), httpServletRequest);
+        contactService.saveContact(contact);
+        return "redirect:/contact/" + encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
     }
-	/*@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid LocationType LocationType, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, LocationType);
-            return "LocationTypes/create";
-        }
-        uiModel.asMap().clear();
-        LocationTypeService.saveLocationType(LocationType);
-        return "redirect:/LocationTypes/" + encodeUrlPathSegment(LocationType.getId().toString(), httpServletRequest);
-    }*/
-
+	
 	@RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
-        populateEditForm(uiModel, new LocationType());
-        return "LocationType/create";
+        populateEditForm(uiModel, new Contact());
+        return "contact/create";
     }
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("locationtype", LocationTypeService.findLocationType(id));
-       // uiModel.addAttribute("itemId", id);
-        return "LocationType/show";
+        uiModel.addAttribute("contact", contactService.findContact(id));
+        uiModel.addAttribute("itemId", id);
+        return "contact/show";
     }
 
 	@RequestMapping(produces = "text/html")
@@ -103,44 +69,44 @@ public class LocationTypeController {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            uiModel.addAttribute("locationtypes", LocationType.findLocationTypeEntries(firstResult, sizeNo, sortFieldName, sortOrder));
-            float nrOfPages = (float) LocationTypeService.countAllLocationTypes() / sizeNo;
+            uiModel.addAttribute("contact", Contact.findContactEntries(firstResult, sizeNo, sortFieldName, sortOrder));
+            float nrOfPages = (float) contactService.countAllContact()/ sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            uiModel.addAttribute("locationtypes", LocationType.findAllLocationTypes(sortFieldName, sortOrder));
+            uiModel.addAttribute("contact",  Contact.findAllContact(sortFieldName, sortOrder));
         }
-        return "LocationType/list";
+        return "contact/list";
     }
 
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-    public String update(@Valid LocationType LocationType, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String update(@Valid Contact contact, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, LocationType);
-            return "LocationType/update";
+            populateEditForm(uiModel, contact);
+            return "contact/update";
         }
         uiModel.asMap().clear();
-        LocationTypeService.updateLocationType(LocationType);
-        return "redirect:/LocationType/" + encodeUrlPathSegment(LocationType.getId().toString(), httpServletRequest);
+        contactService.updateContact(contact);
+        return "redirect:/contact/" + encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
     }
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        populateEditForm(uiModel, LocationTypeService.findLocationType(id));
-        return "LocationType/update";
+        populateEditForm(uiModel, contactService.findContact(id));
+        return "contact/update";
     }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        LocationType Locationtype = LocationTypeService.findLocationType(id);
-        LocationTypeService.deleteLocationType(Locationtype);
+        Contact contact = contactService.findContact(id);
+        contactService.deleteContact(contact);
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/LocationType";
+        return "redirect:/contact";
     }
 
-	void populateEditForm(Model uiModel, LocationType LocationType) {
-        uiModel.addAttribute("LocationType", LocationType);
+	void populateEditForm(Model uiModel, Contact contact) {
+        uiModel.addAttribute("contact", contact);
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -160,11 +126,11 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            LocationType LocationType = LocationTypeService.findLocationType(id);
-            if (LocationType == null) {
+            Contact contact = contactService.findContact(id);
+            if (contact == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<String>(LocationType.toJson(), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(contact.toJson(), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -176,8 +142,8 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            List<LocationType> result = LocationTypeService.findAllLocationTypes();
-            return new ResponseEntity<String>(LocationType.toJsonArray(result), headers, HttpStatus.OK);
+            List<Contact>result = contactService.findAllContact();
+            return new ResponseEntity<String>(Contact.toJsonArray(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -188,10 +154,10 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            LocationType locationtype = LocationType.fromJsonToLocationType(json);
-            LocationTypeService.saveLocationType(locationtype);
+            Contact contact = Contact.fromJsonToContact(json);
+            contactService.saveContact(contact);
             RequestMapping a = (RequestMapping) getClass().getAnnotation(RequestMapping.class);
-            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+locationtype.getId().toString()).build().toUriString());
+            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+contact.getId().toString()).build().toUriString());
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -203,8 +169,8 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            for (LocationType LocationType: LocationType.fromJsonArrayToLocationTypes(json)) {
-                LocationTypeService.saveLocationType(LocationType);
+            for (Contact contact: Contact.fromJsonArrayToCustomer(json)) {
+                contactService.saveContact(contact);
             }
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -217,9 +183,9 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            LocationType locationtype = LocationType.fromJsonToLocationType(json);
-            locationtype.setId(id);
-            if (LocationTypeService.updateLocationType(locationtype) == null) {
+            Contact contact = Contact.fromJsonToContact(json);
+            contact.setId(id);
+            if (contactService.updateContact(contact) == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<String>(headers, HttpStatus.OK);
@@ -233,40 +199,21 @@ public class LocationTypeController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            LocationType LocationType = LocationTypeService.findLocationType(id);
-            if (LocationType == null) {
+            
+            Contact contact = contactService.findContact(id);
+            if (contact == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            LocationTypeService.deleteLocationType(LocationType);
+            contactService.deleteContact(contact); 
             return new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-/*
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public List<Floor> listofFloor(@RequestParam("floorNumber") String searchKeyword) {
-		System.out.println("First");
-		List<Floor> searchResult = floorService.findFloorbyFloorNumber(searchKeyword);
-		System.out.println("2nd");
-		System.out.println("THird" + searchResult);
-		return searchResult;
-	}*/
-	
-	/*@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public ResponseEntity<String> listofFloor(@ModelAttribute("SearchCriteria") SearchForm searchForm) {
-		HttpHeaders headers = new HttpHeaders();
-		System.out.println("First");
-		String searchResult = floorService.findFloorbyFloorNumber(searchForm.getSearchString());
-		System.out.println("2nd");
-		System.out.println("THird" + searchResult);
-		//return searchResult;
-		return new ResponseEntity<String>(searchResult,headers, HttpStatus.OK);
-	}*/
-	
+
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("locationtypes", LocationTypeService.findLocationTypebyLocationTypeNumber(searchForm.getSearchString()));
-		return "LocationType/list";
+	public String listofContact(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
+		uiModel.addAttribute("contacts", contactService.findContactbyid(searchForm.getSearchString()));
+		return "contact/list";
 	}
 }

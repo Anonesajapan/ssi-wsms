@@ -6,6 +6,10 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
+import ph.com.smesoft.wsms.domain.Contact;
+import ph.com.smesoft.wsms.service.ContactService;
+import ph.com.smesoft.wsms.domain.Customer;
+import ph.com.smesoft.wsms.service.CustomerService;
 import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
@@ -111,7 +115,59 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     }
 	
 	
+	@Autowired
+    CustomerService customerService;
+
+	public Converter<Customer, String> getCustomerToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Customer, java.lang.String>() {
+            public String convert(Customer customer) {
+                return new StringBuilder().append(customer.getCustomerName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Customer> getIdToCustomerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Customer>() {
+            public ph.com.smesoft.wsms.domain.Customer convert(java.lang.Long id) {
+                return customerService.findCustomer(id);
+            }
+        };
+    }
 	
+	public Converter<String, Customer> getStringToCustomerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Customer>() {
+            public ph.com.smesoft.wsms.domain.Customer convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Customer.class);
+            }
+        };
+    }
+	
+	@Autowired
+    ContactService contactService;
+
+	public Converter<Contact, String> getContactToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Contact, java.lang.String>() {
+            public String convert(Contact contact) {
+                return new StringBuilder().append(contact.getFirstName()).append(contact.getMiddleName()).append(contact.getLastName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Contact> getIdToContactConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Contact>() {
+            public ph.com.smesoft.wsms.domain.Contact convert(java.lang.Long id) {
+                return contactService.findContact(id);
+            }
+        };
+    }
+	
+	public Converter<String, Contact> getStringToContactConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Contact>() {
+            public ph.com.smesoft.wsms.domain.Contact convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Contact.class);
+            }
+        };
+    }
 	@Autowired
     LocationTypeService LocationTypeService;
 
@@ -170,6 +226,21 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         registry.addConverter(getFloorToStringConverter());
         registry.addConverter(getIdToFloorConverter());
         registry.addConverter(getStringToFloorConverter());
+       
+        registry.addConverter(getIndustrytypeToStringConverter());
+        registry.addConverter(getIdToIndustrytypeConverter());
+        registry.addConverter(getStringToIndustrytypeConverter());
+       
+        registry.addConverter(getLocationtypeToStringConverter());
+        registry.addConverter(getIdToLocationtypeConverter());
+        registry.addConverter(getStringToLocationtypeConverter());
+       
+        registry.addConverter(getCustomertypeToStringConverter());
+        registry.addConverter(getIdToCustomertypeConverter());
+        registry.addConverter(getStringToCustomertypeConverter());
+       
+        
+        
     }
 
 	public void afterPropertiesSet() {

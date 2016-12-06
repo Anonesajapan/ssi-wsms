@@ -13,7 +13,7 @@
 	  	<center>     	 	
 		     <ul id="style-10" class="nav nav-pills navbar-nav side-nav nav-size">
 		         <li><a href="/wsms/home/statistics" class="hvr-bounce-to-right"><img src="${home}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Home</p></a></li>
-		         <li><a href="/wsms/CRM?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerList}" height="40" width="40" class="shadowEffect"/><p>CustomerList</p></a></li>
+		         <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerList}" height="40" width="40" class="shadowEffect"/><p>CustomerList</p></a></li>
 		         <li><a href="/wsms/CustomerType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerType}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>CustomerType</p></a></li>
 		         <li><a href="/wsms/IndustryType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${IndustryType}" height="40" width="40" class="shadowEffect"/><p>IndustryType</p></a></li>
 		         <li><a href="/wsms/LocationType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${Location}" height="40" width="40" class="shadowEffect"/><p>Location</p></a></li>
