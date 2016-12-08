@@ -14,10 +14,13 @@ import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
 import ph.com.smesoft.wsms.domain.LocationType;
+import ph.com.smesoft.wsms.domain.Area;
+
 import ph.com.smesoft.wsms.service.CustomerTypeService;
 import ph.com.smesoft.wsms.service.FloorService;
 import ph.com.smesoft.wsms.service.IndustryTypeService;
 import ph.com.smesoft.wsms.service.LocationTypeService;
+import ph.com.smesoft.wsms.service.AreaService;
 
 
 
@@ -196,28 +199,28 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
     }	
 
 	@Autowired
-    LocationTypeService AreaService;
+    AreaService areaService;
 
-	public Converter<LocationType, String> getAreaToStringConverter() {
-        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.LocationType, java.lang.String>() {
-            public String convert(LocationType LocationType) {
-                return new StringBuilder().append(LocationType.getLocationTypeName()).toString();
+	public Converter<Area, String> getAreaToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Area, java.lang.String>() {
+            public String convert(Area area) {
+                return new StringBuilder().append(area.getAreaName()).toString();
             }
         };
     }
 
-	public Converter<Long, LocationType> getIdToAreaConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.LocationType>() {
-            public ph.com.smesoft.wsms.domain.LocationType convert(java.lang.Long id) {
-                return LocationTypeService.findLocationType(id);
+	public Converter<Long, Area> getIdToAreaConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Area>() {
+            public ph.com.smesoft.wsms.domain.Area convert(java.lang.Long id) {
+                return Area.findArea(id);
             }
         };
     }
 
-	public Converter<String, LocationType> getStringToAreaConverter() {
-        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.LocationType>() {
-            public ph.com.smesoft.wsms.domain.LocationType convert(String id) {
-                return getObject().convert(getObject().convert(id, Long.class), LocationType.class);
+	public Converter<String, Area> getStringToAreaConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Area>() {
+            public ph.com.smesoft.wsms.domain.Area convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Area.class);
             }
         };
     }	
@@ -238,6 +241,12 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         registry.addConverter(getCustomertypeToStringConverter());
         registry.addConverter(getIdToCustomertypeConverter());
         registry.addConverter(getStringToCustomertypeConverter());
+        
+        registry.addConverter(getAreaToStringConverter());
+        registry.addConverter(getIdToAreaConverter());
+        registry.addConverter(getStringToAreaConverter());
+        
+        
        
         
         

@@ -25,12 +25,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
-
+import ph.com.smesoft.wsms.domain.Area;
 import ph.com.smesoft.wsms.domain.Contact;
 import ph.com.smesoft.wsms.domain.Customer;
 import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.repository.IndustryTypeRepository;
+import ph.com.smesoft.wsms.service.AreaService;
 import ph.com.smesoft.wsms.service.CustomerService;
 import ph.com.smesoft.wsms.service.CustomerTypeService;
 import ph.com.smesoft.wsms.service.FloorService;
@@ -55,6 +56,10 @@ public class CustomerController {
 	LocationTypeService locationTypeService;
 	@Autowired
 	IndustryTypeService industryTypeService;
+	@Autowired
+	AreaService areaservice;
+	
+	
 	
 	
 	
@@ -65,9 +70,11 @@ public class CustomerController {
         if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, customer);       
             
-          uiModel.addAttribute("CustomerType", CustomerType.findAllCustomerTypes());
+            uiModel.addAttribute("CustomerType", CustomerType.findAllCustomerTypes());
             uiModel.addAttribute("IndustryType", IndustryType.findAllIndustrytypes());
             uiModel.addAttribute("LocationType", LocationType.findAllLocationTypes());
+            uiModel.addAttribute("Area", Area.findAllAreas());
+            
             
             return "customer/create";
         }
@@ -163,6 +170,7 @@ public class CustomerController {
         uiModel.addAttribute("customertypes", customerTypeService.findAllCustomerTypes());
         uiModel.addAttribute("industrytypes", industryTypeService.findAllIndustrytypes());
         uiModel.addAttribute("locationtypes", locationTypeService.findAllLocationTypes());
+        uiModel.addAttribute("area", areaservice.findAllAreas());
     
         
     }

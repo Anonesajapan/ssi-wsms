@@ -35,7 +35,7 @@ import flexjson.JSONSerializer;
 @NamedQueries({
 @NamedQuery(
    name = "findCustomerByid",
-   query = "SELECT c FROM Customer c WHERE LOWER(c.CustomerName) LIKE LOWER(:searchString) "
+   query = "SELECT c FROM Customer c WHERE LOWER(c.CustomerName) LIKE LOWER(:searchString)"
        
    )
 })
@@ -46,29 +46,31 @@ public class Customer {
 	@Size(max = 100)
 	private String CustomerName;
 	
-
-	/*@NotEmpty
-	private String Street;
-	@NotEmpty
-	private String Barangay;   
-	@NotEmpty
-	private String City;
-	@NotEmpty
-	private String State;
-	@NotEmpty
-	private String Country;*/
 	
 	
 	@ManyToOne
 	private IndustryType industryType;
+
+
 	@ManyToOne
 	private CustomerType customerType;
 	@ManyToOne
 	private LocationType locationType;
+	@ManyToOne 
+	private Area area;
+	
 	
 	
 	
     
+		public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
+
 		public String getCustomerName() {
 			return this.CustomerName;
 		}
@@ -102,26 +104,10 @@ public class Customer {
 		}
 
 
-		
-
-		
-
-		
-
-
-
-
-
-
-
-
-
-
-
 	@PersistenceContext
     transient EntityManager entityManager;
 	
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","Area","Address","EmailAddress","Website","Remarks");
 	 
 	public static final EntityManager entityManager() {
 	        EntityManager em = new Customer().entityManager;

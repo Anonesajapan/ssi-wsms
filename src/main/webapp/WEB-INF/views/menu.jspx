@@ -2,23 +2,17 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
 	<spring:url var="home" value="/resources/images/Home.png" />
-	<spring:url var="CustomerList" value="/resources/images/CustomerList.png" />  		          	 	
-	<spring:url var="CustomerType" value="/resources/images/CustomerType.png" />  	
-	<spring:url var="IndustryType" value="/resources/images/IndustryType.png" />
-	<spring:url var="Location" value="/resources/images/Location.png" />  		          	 	
-	<spring:url var="Area" value="/resources/images/Area.png" />  
-	<spring:url var="door" value="/resources/images/dooricon.png" />
+	<spring:url var="maintenance" value="/resources/images/Maintenance.png" />
+	<spring:url var="CustomerList" value="/resources/images/CustomerList.png" />  		          	
+
 	
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 	  	<center>     	 	
 		     <ul id="style-10" class="nav nav-pills navbar-nav side-nav nav-size">
 		         <li><a href="/wsms/home/statistics" class="hvr-bounce-to-right"><img src="${home}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Home</p></a></li>
-		         <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerList}" height="40" width="40" class="shadowEffect"/><p>CustomerList</p></a></li>
-		         <li><a href="/wsms/CustomerType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerType}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>CustomerType</p></a></li>
-		         <li><a href="/wsms/IndustryType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${IndustryType}" height="40" width="40" class="shadowEffect"/><p>IndustryType</p></a></li>
-		         <li><a href="/wsms/LocationType?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${Location}" height="40" width="40" class="shadowEffect"/><p>Location</p></a></li>
-		         <li><a href="/wsms/Area?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${Area}" class="shadowEffect" alt="eqweqw Inc." height="40" width="40"/><p>Area</p></a></li>
-		       
+		          <li><a href="/wsms/maintenance" class="hvr-bounce-to-right"><img src="${maintenance}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Maintenance</p></a></li>
+		         <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}" class="hvr-bounce-to-right"><img src="${CustomerList}" height="40" width="40" class="shadowEffect"/><p>CRM</p></a></li>
+		        	       
 		     </ul>
 		</center>
 			     
