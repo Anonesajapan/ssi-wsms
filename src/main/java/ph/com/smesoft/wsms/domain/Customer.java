@@ -46,8 +46,6 @@ public class Customer {
 	@Size(max = 100)
 	private String CustomerName;
 	
-	
-	
 	@ManyToOne
 	private IndustryType industryType;
 
@@ -107,7 +105,7 @@ public class Customer {
 	@PersistenceContext
     transient EntityManager entityManager;
 	
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","Area","Address","EmailAddress","Website","Remarks");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","Area");
 	 
 	public static final EntityManager entityManager() {
 	        EntityManager em = new Customer().entityManager;

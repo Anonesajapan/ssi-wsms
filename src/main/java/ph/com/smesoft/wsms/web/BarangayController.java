@@ -1,6 +1,5 @@
 package ph.com.smesoft.wsms.web;
 
-
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -25,152 +24,93 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
-import ph.com.smesoft.wsms.domain.Area;
-import ph.com.smesoft.wsms.domain.Contact;
-import ph.com.smesoft.wsms.domain.Customer;
-import ph.com.smesoft.wsms.domain.CustomerType;
+import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.dto.SearchForm;
-import ph.com.smesoft.wsms.repository.IndustryTypeRepository;
-import ph.com.smesoft.wsms.service.AreaService;
-import ph.com.smesoft.wsms.service.CustomerService;
-import ph.com.smesoft.wsms.service.CustomerTypeService;
-import ph.com.smesoft.wsms.service.FloorService;
-import ph.com.smesoft.wsms.service.IndustryTypeService;
-import ph.com.smesoft.wsms.service.IndustryTypeServiceImpl;
-import ph.com.smesoft.wsms.service.LocationTypeService;
-import ph.com.smesoft.wsms.domain.Floor;
-import ph.com.smesoft.wsms.domain.IndustryType;
-import ph.com.smesoft.wsms.domain.LocationType;
-
+import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.CityService;
 
 
 @Controller
-@RequestMapping("/customer")
-public class CustomerController {
+@RequestMapping("/barangays")
+public class BarangayController {
+
+	@Autowired
+    BarangayService barangayService;
 	
 	@Autowired
-    CustomerService customerService;
-	@Autowired
-	CustomerTypeService customerTypeService;
-	@Autowired
-	LocationTypeService locationTypeService;
-	@Autowired
-	IndustryTypeService industryTypeService;
-	@Autowired
-	AreaService areaservice;
+	CityService cityService;
 	
-	
-	
-	
-	
-	
-	
+
+
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Customer customer, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String create(@Valid Barangay barangay, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, customer);       
-            
-          uiModel.addAttribute("CustomerType", CustomerType.findAllCustomerTypes());
-            uiModel.addAttribute("IndustryType", IndustryType.findAllIndustrytypes());
-            uiModel.addAttribute("LocationType", LocationType.findAllLocationTypes());
-            uiModel.addAttribute("Area", Area.findAllAreas());
-            return "customer/create";
+            populateEditForm(uiModel, barangay);
+            return "barangays/create";
         }
-       
-        	
-        
-       /* uiModel.addAttribute("Customertype", Customertype.findAllCustomertypesName());
-        uiModel.addAttribute("Industrytype", Industrytype.findAllIndustrytypes());
-        uiModel.addAttribute("Locationtype", Locationtype.findAllLocationtypes());
-        uiModel.addAttribute("street", Street.findAllStreets());
-        uiModel.addAttribute("barangay", Barangay.findAllBarangays());
-        uiModel.addAttribute("city", City.findAllCities()); */
-        
-       // uiModel.asMap().clear();
-        customerService.saveCustomer(customer);
-        return "redirect:/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
-        
-		
-		
-     }
-	
-	
+        uiModel.asMap().clear();
+        barangayService.saveBarangay(barangay);
+        return "redirect:/barangays/" + encodeUrlPathSegment(barangay.getId().toString(), httpServletRequest);
+    }
 
 	@RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
-        populateEditForm(uiModel, new Customer());
-         return "customer/create";
+        populateEditForm(uiModel, new Barangay());
+        return "barangays/create";
     }
-	
-	
+
 	@RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("customer", customerService.findCustomer(id));
+        uiModel.addAttribute("barangay", barangayService.findBarangay(id));
         uiModel.addAttribute("itemId", id);
-        return "customer/show";
+        return "barangays/show";
     }
-		
-	
-	@RequestMapping(params = "/{id}/add", produces = "text/html")
-    public String addForm(Model uiModel) {
-        populateEditForm(uiModel, new Customer());
-        return "customer/add";
-    }
-	
 
-	
 	@RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            uiModel.addAttribute("customer", Customer.findCustomerEntries(firstResult, sizeNo, sortFieldName, sortOrder));
-            uiModel.addAttribute("list", Contact.findContactEntries(firstResult, sizeNo, sortFieldName, sortOrder));
-            float nrOfPages = (float) customerService.countAllCustomer() / sizeNo;
+            uiModel.addAttribute("barangays", Barangay.findBarangayEntries(firstResult, sizeNo, sortFieldName, sortOrder));
+            float nrOfPages = (float) barangayService.countAllBarangays() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            uiModel.addAttribute("customer", Customer.findAllCustomer(sortFieldName, sortOrder));
-            uiModel.addAttribute("list", Contact.findAllContact(sortFieldName, sortOrder));
+            uiModel.addAttribute("barangays", Barangay.findAllBarangays(sortFieldName, sortOrder));
         }
-        return "customer/list";
+        return "barangays/list";
     }
-	
-	
+
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-    public String update(@Valid Customer customer, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String update(@Valid Barangay barangay, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, customer);
-            return "customer/update";
+            populateEditForm(uiModel, barangay);
+            return "barangays/update";
         }
         uiModel.asMap().clear();
-        customerService.updateCustomer(customer);
-        return "redirect:/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
+        barangayService.updateBarangay(barangay);
+        return "redirect:/barangays/" + encodeUrlPathSegment(barangay.getId().toString(), httpServletRequest);
     }
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        populateEditForm(uiModel, customerService.findCustomer(id));
-        return "customer/update";
+        populateEditForm(uiModel, barangayService.findBarangay(id));
+        return "barangays/update";
     }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-		Customer customer = customerService.findCustomer(id);
-		customerService.deleteCustomer(customer);
+        Barangay barangay = barangayService.findBarangay(id);
+        barangayService.deleteBarangay(barangay);
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/customer";
+        return "redirect:/barangays";
     }
-	
-	void populateEditForm(Model uiModel, Customer customer) {
-        uiModel.addAttribute("customer", customer);
-        uiModel.addAttribute("customertypes", customerTypeService.findAllCustomerTypes());
-        uiModel.addAttribute("industrytypes", industryTypeService.findAllIndustrytypes());
-        uiModel.addAttribute("locationtypes", locationTypeService.findAllLocationTypes());
-        uiModel.addAttribute("area", areaservice.findAllAreas());
-    
-        
+
+	void populateEditForm(Model uiModel, Barangay barangay) {
+        uiModel.addAttribute("barangay", barangay);
+        uiModel.addAttribute("cities", cityService.findAllCities());
+   //     uiModel.addAttribute("countries", countryService.findAllCountries());
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -183,31 +123,31 @@ public class CustomerController {
         } catch (UnsupportedEncodingException uee) {}
         return pathSegment;
     }
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> showJson(@PathVariable("id") Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-        	Customer customer = customerService.findCustomer(id);
-            if (customer == null) {
+            Barangay barangay = barangayService.findBarangay(id);
+            if (barangay == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<String>(customer.toJson(), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(barangay.toJson(), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-	
+
 	@RequestMapping(headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> listJson() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            List<Customer> result = customerService.findAllCustomer();
-            return new ResponseEntity<String>(Customer.toJsonArray(result), headers, HttpStatus.OK);
+            List<Barangay> result = barangayService.findAllBarangays();
+            return new ResponseEntity<String>(Barangay.toJsonArray(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -218,23 +158,23 @@ public class CustomerController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-        	Customer customer = ph.com.smesoft.wsms.domain.Customer.fromJsonToCustomer(json);
-        	customerService.saveCustomer(customer);
+            Barangay barangay = Barangay.fromJsonToBarangay(json);
+            barangayService.saveBarangay(barangay);
             RequestMapping a = (RequestMapping) getClass().getAnnotation(RequestMapping.class);
-            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+customer.getId().toString()).build().toUriString());
+            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+barangay.getId().toString()).build().toUriString());
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-	
+
 	@RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<String> createFromJsonArray(@RequestBody String json) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            for (Customer customer: Customer.fromJsonArrayToCustomer(json)) {
-            	customerService.saveCustomer(customer);
+            for (Barangay barangay: Barangay.fromJsonArrayToBarangays(json)) {
+                barangayService.saveBarangay(barangay);
             }
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -247,9 +187,9 @@ public class CustomerController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-        	Customer customer = ph.com.smesoft.wsms.domain.Customer.fromJsonToCustomer(json);
-        	customer.setId(id);
-            if (customerService.updateCustomer(customer) == null) {
+            Barangay barangay = Barangay.fromJsonToBarangay(json);
+            barangay.setId(id);
+            if (barangayService.updateBarangay(barangay) == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<String>(headers, HttpStatus.OK);
@@ -263,21 +203,42 @@ public class CustomerController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-        	Customer customer = customerService.findCustomer(id);
-            if (customer == null) {
+            Barangay barangay = barangayService.findBarangay(id);
+            if (barangay == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            customerService.deleteCustomer(customer);
+            barangayService.deleteBarangay(barangay);
             return new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+/*
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public List<Floor> listofFloor(@RequestParam("floorNumber") String searchKeyword) {
+		System.out.println("First");
+		List<Floor> searchResult = floorService.findFloorbyFloorNumber(searchKeyword);
+		System.out.println("2nd");
+		System.out.println("THird" + searchResult);
+		return searchResult;
+	}*/
+	
+	/*@RequestMapping(value = "/search", method = { RequestMethod.GET })
+	public ResponseEntity<String> listofFloor(@ModelAttribute("SearchCriteria") SearchForm searchForm) {
+		HttpHeaders headers = new HttpHeaders();
+		System.out.println("First");
+		String searchResult = floorService.findFloorbyFloorNumber(searchForm.getSearchString());
+		System.out.println("2nd");
+		System.out.println("THird" + searchResult);
+		//return searchResult;
+		return new ResponseEntity<String>(searchResult,headers, HttpStatus.OK);
+	}*/
+	
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public String listofFloor(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("customer", customerService.findCustomerbyid(searchForm.getSearchString()));
-		return "customer/list";
+	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
+		uiModel.addAttribute("barangays", barangayService.findBarangaybyBarangayNumber(searchForm.getSearchString()));
+		return "barangays/list";
 	}
+	
 	
 }

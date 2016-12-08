@@ -14,6 +14,12 @@ import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
 import ph.com.smesoft.wsms.domain.LocationType;
+import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.domain.Street;
+import ph.com.smesoft.wsms.service.StreetService;
+import ph.com.smesoft.wsms.domain.City;
+import ph.com.smesoft.wsms.service.CityService;
 import ph.com.smesoft.wsms.domain.Area;
 
 import ph.com.smesoft.wsms.service.CustomerTypeService;
@@ -63,6 +69,33 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             }
         };
     }
+	@Autowired
+    BarangayService barangayService;
+
+	public Converter<Barangay, String> getBarangayToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Barangay, java.lang.String>() {
+            public String convert(Barangay barangay) {
+                return new StringBuilder().append(barangay.getBarangayName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Barangay> getIdToBarangayConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Barangay>() {
+            public ph.com.smesoft.wsms.domain.Barangay convert(java.lang.Long id) {
+                return barangayService.findBarangay(id);
+            }
+        };
+    }
+
+	public Converter<String, Barangay> getStringToBarangayConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Barangay>() {
+            public ph.com.smesoft.wsms.domain.Barangay convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Barangay.class);
+            }
+        };
+    }
+	
 	@Autowired
     CustomerTypeService customerTypeService;
 
@@ -171,6 +204,35 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             }
         };
     }
+	
+	@Autowired
+    CityService cityService;
+
+	public Converter<City, String> getCityToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.City, java.lang.String>() {
+            public String convert(City city) {
+                return new StringBuilder().append(city.getCityName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, City> getIdToCityConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.City>() {
+            public ph.com.smesoft.wsms.domain.City convert(java.lang.Long id) {
+                return cityService.findCity(id);
+            }
+        };
+    }
+
+	public Converter<String, City> getStringToCityConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.City>() {
+            public ph.com.smesoft.wsms.domain.City convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), City.class);
+            }
+        };
+    }
+
+	
 	@Autowired
     LocationTypeService LocationTypeService;
 
@@ -224,6 +286,33 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             }
         };
     }	
+	
+	@Autowired
+    StreetService streetService;
+
+	public Converter<Street, String> getStreetToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Street, java.lang.String>() {
+            public String convert(Street street) {
+                return new StringBuilder().append(street.getStreetName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Street> getIdToStreetConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Street>() {
+            public ph.com.smesoft.wsms.domain.Street convert(java.lang.Long id) {
+                return streetService.findStreet(id);
+            }
+        };
+    }
+
+	public Converter<String, Customer> getStringToStreetConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Customer>() {
+            public ph.com.smesoft.wsms.domain.Customer convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Customer.class);
+            }
+        };
+    }
 
 	public void installLabelConverters(FormatterRegistry registry) {
         registry.addConverter(getFloorToStringConverter());
@@ -246,8 +335,19 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         registry.addConverter(getIdToAreaConverter());
         registry.addConverter(getStringToAreaConverter());
         
+        registry.addConverter(getCityToStringConverter());
+        registry.addConverter(getIdToCityConverter());
+        registry.addConverter(getStringToCityConverter());
         
-       
+        
+        
+        registry.addConverter(getBarangayToStringConverter());
+        registry.addConverter(getIdToBarangayConverter());
+        registry.addConverter(getStringToBarangayConverter());
+        
+        registry.addConverter(getStreetToStringConverter());
+        registry.addConverter(getIdToStreetConverter());
+        registry.addConverter(getStringToStreetConverter());
         
         
     }
