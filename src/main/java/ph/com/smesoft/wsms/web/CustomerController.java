@@ -26,6 +26,8 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 import ph.com.smesoft.wsms.domain.Area;
+import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.domain.City;
 import ph.com.smesoft.wsms.domain.Contact;
 import ph.com.smesoft.wsms.domain.Customer;
 import ph.com.smesoft.wsms.domain.CustomerType;
@@ -38,9 +40,16 @@ import ph.com.smesoft.wsms.service.FloorService;
 import ph.com.smesoft.wsms.service.IndustryTypeService;
 import ph.com.smesoft.wsms.service.IndustryTypeServiceImpl;
 import ph.com.smesoft.wsms.service.LocationTypeService;
+import ph.com.smesoft.wsms.service.CityServiceImpl;
+import ph.com.smesoft.wsms.service.BarangayServiceImpl;
+import ph.com.smesoft.wsms.service.StreetServiceImpl;
+import ph.com.smesoft.wsms.service.CityService;
+import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.StreetService;
 import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
 import ph.com.smesoft.wsms.domain.LocationType;
+import ph.com.smesoft.wsms.domain.Street;
 
 
 
@@ -57,7 +66,16 @@ public class CustomerController {
 	@Autowired
 	IndustryTypeService industryTypeService;
 	@Autowired
+	CityService cityservice;
+	@Autowired
+	BarangayService barangayservice;
+	@Autowired
+	StreetService streetservice;
+	@Autowired
 	AreaService areaservice;
+
+	
+	
 	
 	
 	
@@ -70,10 +88,14 @@ public class CustomerController {
         if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, customer);       
             
-          uiModel.addAttribute("CustomerType", CustomerType.findAllCustomerTypes());
+            uiModel.addAttribute("CustomerType", CustomerType.findAllCustomerTypes());
             uiModel.addAttribute("IndustryType", IndustryType.findAllIndustrytypes());
             uiModel.addAttribute("LocationType", LocationType.findAllLocationTypes());
+            uiModel.addAttribute("City", City.findAllCities());
+            uiModel.addAttribute("Barangay", Barangay.findAllBarangays());
+            uiModel.addAttribute("Street", Street.findAllStreets());
             uiModel.addAttribute("Area", Area.findAllAreas());
+           
             return "customer/create";
         }
        
@@ -168,6 +190,9 @@ public class CustomerController {
         uiModel.addAttribute("customertypes", customerTypeService.findAllCustomerTypes());
         uiModel.addAttribute("industrytypes", industryTypeService.findAllIndustrytypes());
         uiModel.addAttribute("locationtypes", locationTypeService.findAllLocationTypes());
+        uiModel.addAttribute("cities", City.findAllCities());
+        uiModel.addAttribute("barangays", Barangay.findAllBarangays());
+        uiModel.addAttribute("streets", Street.findAllStreets());
         uiModel.addAttribute("area", areaservice.findAllAreas());
     
         

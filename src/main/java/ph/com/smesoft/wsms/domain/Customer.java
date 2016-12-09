@@ -54,8 +54,17 @@ public class Customer {
 	private CustomerType customerType;
 	@ManyToOne
 	private LocationType locationType;
+	
+	@ManyToOne
+	private City city;
+	@ManyToOne 
+	private Barangay barangay;
+	@ManyToOne
+	private Street street;
 	@ManyToOne 
 	private Area area;
+	
+	
 	
 	
 	
@@ -105,8 +114,32 @@ public class Customer {
 	@PersistenceContext
     transient EntityManager entityManager;
 	
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","Area");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","City","Barangay","Street","Area");
 	 
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public Barangay getBarangay() {
+		return barangay;
+	}
+
+	public void setBarangay(Barangay barangay) {
+		this.barangay = barangay;
+	}
+
+	public Street getStreet() {
+		return street;
+	}
+
+	public void setStreet(Street street) {
+		this.street = street;
+	}
+
 	public static final EntityManager entityManager() {
 	        EntityManager em = new Customer().entityManager;
 	        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
