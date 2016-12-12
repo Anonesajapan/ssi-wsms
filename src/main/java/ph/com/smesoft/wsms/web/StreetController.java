@@ -27,6 +27,7 @@ import org.springframework.web.util.WebUtils;
 import ph.com.smesoft.wsms.domain.Street;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.CityService;
 import ph.com.smesoft.wsms.service.StreetService;
 
 @Controller
@@ -37,6 +38,9 @@ public class StreetController {
     StreetService streetService;
 	@Autowired
 	BarangayService barangayService;
+	@Autowired
+	CityService cityService;
+	
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid Street street, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -106,6 +110,7 @@ public class StreetController {
 	void populateEditForm(Model uiModel, Street street) {
         uiModel.addAttribute("street", street);
         uiModel.addAttribute("barangays", barangayService.findAllBarangays());
+        uiModel.addAttribute("cities", cityService.findAllCities());
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -230,8 +235,8 @@ public class StreetController {
 	}*/
 	
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("cities", streetService.findStreetbyStreetNumber(searchForm.getSearchString()));
+	public String listofStreet(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
+		uiModel.addAttribute("streets", streetService.findStreetbyStreetNumber(searchForm.getSearchString()));
 		return "streets/list";
 	}
 	

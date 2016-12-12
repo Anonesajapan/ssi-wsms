@@ -15,6 +15,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
 
+
+import javax.persistence.ManyToOne;
+
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -27,14 +31,52 @@ import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
 
 @NamedQueries({
-@NamedQuery(
-   name = "findAreaByAreaNum",
-   query = "SELECT b FROM Area b WHERE LOWER(b.AreaName) LIKE LOWER(:searchString) "
-   ),
-@NamedQuery(
-		   name = "countArea",
-		   query = "SELECT b.AreaName FROM Area b WHERE LOWER(b.AreaName) = LOWER(:search) "
-)
+	@NamedQuery(
+			name = "findAllAreaBySearch",
+			query = "SELECT b FROM Area b WHERE LOWER(b.AreaName) LIKE LOWER(:searchString)"
+			+  "OR LOWER(b.city.cityName) LIKE LOWER(:searchString)"
+			+  "OR LOWER(b.barangay.barangayName) LIKE LOWER(:searchString)"
+			+  "OR LOWER(b.street.streetName) LIKE LOWER(:searchString)"
+			),
+	@NamedQuery(
+			name = "countAreabyAreasName",
+			query = "SELECT COUNT(b) FROM Area b WHERE b.city.cityName = :cityName"
+			),
+	@NamedQuery(
+			name = "countAreabyAreaNames",
+			query ="SELECT COUNT(b) FROM Area b WHERE b.barangay.barangayName = :barangayName"
+			),
+	@NamedQuery(
+			
+			name = "countAreabyAreaNamed" ,
+			query = "SELECT COUNT(b) FROM Area b WHERE b.street.streetName = :streetName"
+			),
+	@NamedQuery(
+			name = "firstAreaInsertedRecord",
+			query = "SELECT b FROM Area b ORDER BY b.id ASC"
+			),
+	@NamedQuery(
+			name = "checkIfAreaExist",
+			query = "SELECT COUNT(b.AreaName) FROM Area b WHERE b.AreaName = :areaName "
+			),
+	
+	@NamedQuery(
+			name = "findAllAreaByCityId",
+			query = "SELECT b FROM Area b WHERE b.city.id = :cityId"
+			),
+
+	@NamedQuery(
+			name = "findAllAreaByBarangayId",
+			query = "SELECT b FROM Area b WHERE b.barangay.id = :barangayId"
+			),
+
+	@NamedQuery(
+			name = "findAllAreaByStreetId",
+			query = "SELECT b FROM Area b WHERE b.street.id = :streetId"
+			),
+	
+	
+
 })
 
 @Configurable
@@ -46,13 +88,21 @@ public class Area {
 	@Column(unique=true)
     @Size(min=1, max=30)
     private String AreaName;
+	
+	@ManyToOne
+	private City city;
+	@ManyToOne
+	private Barangay barangay;
+	@ManyToOne
+	private Street street;
+	
     
     
 
     @PersistenceContext
     transient EntityManager entityManager;
 
-    public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("AreaName");
+    public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("city","barangay","street","AreaName");
 
     public static final EntityManager entityManager() {
         EntityManager em = new Area().entityManager;
@@ -60,7 +110,31 @@ public class Area {
         return em;
     }
 
-    public static long countArea() {
+    public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public Barangay getBarangay() {
+		return barangay;
+	}
+
+	public void setBarangay(Barangay barangay) {
+		this.barangay = barangay;
+	}
+
+	public Street getStreet() {
+		return street;
+	}
+
+	public void setStreet(Street street) {
+		this.street = street;
+	}
+
+	public static long countArea() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Area o", Long.class).getSingleResult();
     }
 

@@ -61,7 +61,7 @@ public class BarangayController {
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("barangay", barangayService.findBarangay(id));
+        uiModel.addAttribute("barangays", barangayService.findBarangay(id));
         uiModel.addAttribute("itemId", id);
         return "barangays/show";
     }

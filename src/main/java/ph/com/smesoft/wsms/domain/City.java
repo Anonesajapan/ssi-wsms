@@ -129,7 +129,7 @@ public class City {
 	@PersistenceContext
 	transient EntityManager entityManager;
 
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("cityName", "state");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("cityName");
 
 	public static final EntityManager entityManager() {
 		EntityManager em = new City().entityManager;

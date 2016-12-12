@@ -18,7 +18,10 @@ version="2.0">
                      
                      <page:list id="pl_ph_com_smesoft_wsms_domain_Area" items="${areas}" buttonAction="/wsms/Area?form" buttonLabel="Register Area" searchAction="/wsms/Area/search">
                       <table:table data="${areas}" id="l_ph_com_smesoft_wsms_domain_Area" path="/Area" >
-                          <table:column id="c_ph_com_smesoft_wsms_domain_Area_AreaName" property="AreaName" />
+                      <table:column id="c_ph_com_smesoft_wsms_domain_Area_Areacity" property="city" />
+                      <table:column id="c_ph_com_smesoft_wsms_domain_Area_Areabarangay" property="barangay" />
+                      <table:column id="c_ph_com_smesoft_wsms_domain_Area_Areastreet" property="street" />
+                       <table:column id="c_ph_com_smesoft_wsms_domain_Area_AreaName" property="AreaName" />
                       </table:table>
                   </page:list>
 

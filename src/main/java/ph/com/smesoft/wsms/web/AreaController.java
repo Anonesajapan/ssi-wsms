@@ -27,6 +27,9 @@ import org.springframework.web.util.WebUtils;
 import ph.com.smesoft.wsms.domain.Area;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.service.AreaService;
+import ph.com.smesoft.wsms.service.CityService;
+import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.StreetService;
 
 @Controller
 @RequestMapping("/Area")
@@ -34,7 +37,14 @@ public class AreaController {
 
 	@Autowired
     AreaService AreaService;
-
+	@Autowired
+	CityService cityService;
+	@Autowired
+	BarangayService barangayService;
+	@Autowired
+	StreetService streetService;
+	
+	
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid Area Area, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -141,6 +151,11 @@ public class AreaController {
 
 	void populateEditForm(Model uiModel, Area Area) {
         uiModel.addAttribute("Area", Area);
+        uiModel.addAttribute("barangays", barangayService.findAllBarangays());
+        uiModel.addAttribute("cities", cityService.findAllCities());
+        uiModel.addAttribute("streets", streetService.findAllStreets());
+        
+        
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

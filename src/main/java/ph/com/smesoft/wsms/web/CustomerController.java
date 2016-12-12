@@ -101,14 +101,7 @@ public class CustomerController {
        
         	
         
-       /* uiModel.addAttribute("Customertype", Customertype.findAllCustomertypesName());
-        uiModel.addAttribute("Industrytype", Industrytype.findAllIndustrytypes());
-        uiModel.addAttribute("Locationtype", Locationtype.findAllLocationtypes());
-        uiModel.addAttribute("street", Street.findAllStreets());
-        uiModel.addAttribute("barangay", Barangay.findAllBarangays());
-        uiModel.addAttribute("city", City.findAllCities()); */
-        
-       // uiModel.asMap().clear();
+      
         customerService.saveCustomer(customer);
         return "redirect:/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
         
@@ -300,8 +293,8 @@ public class CustomerController {
     }
 
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public String listofFloor(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("customer", customerService.findCustomerbyid(searchForm.getSearchString()));
+	public String listofCustomer(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
+		uiModel.addAttribute("customer", customerTypeService.findCustomerTypebyCustomerTypeNumber(searchForm.getSearchString()));
 		return "customer/list";
 	}
 	

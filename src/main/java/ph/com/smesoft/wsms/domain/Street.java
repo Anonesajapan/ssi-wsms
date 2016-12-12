@@ -29,7 +29,14 @@ import flexjson.JSONSerializer;
 		@NamedQuery(name = "findAllStreetsBySearch", 
 				query = "SELECT s FROM Street s WHERE LOWER(s.streetName) LIKE LOWER(:searchString) "
 				+ "OR LOWER(s.barangay.barangayName) LIKE LOWER(:searchString)"
+				+ "OR LOWER(s.city.cityName) LIKE LOWER(:searchString)"	
 		),
+		@NamedQuery(
+				name = "countStreetbyStreetyName",
+				query = "SELECT COUNT(s) FROM Street s WHERE s.city.cityName = :cityName"
+				),
+		
+		
 		@NamedQuery(name = "countStreetbyStreetName", 
 		query = "SELECT COUNT(s) FROM Street s WHERE s.barangay.barangayName = :barangayName"
 		),
@@ -41,15 +48,34 @@ import flexjson.JSONSerializer;
 			    name = "checkIfStreetExist",
 			   query = "SELECT COUNT(s.streetName) FROM Street s WHERE s.streetName = :streetName"
 			),
+		
+		@NamedQuery(
+				name = "findAllStreetsByCityId",
+				query = "SELECT s FROM Street s WHERE s.city.id = :cityId"
+				),
 	    @NamedQuery(
 	            name = "findAllStreetsByBarangayId",
 	            query = "SELECT s FROM Street s WHERE s.barangay.id = :barangayId"
-	            )
+	            ),
+	    @NamedQuery(
+	    		name = "countArea",
+	    		query = "SELECT b.AreaName FROM Area b WHERE LOWER(b.AreaName) = LOWER(:search)"
+	    		)
+		
+	   
 })
 
 @Entity
 @Configurable
 public class Street {
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
 
 	/**
 	 */
@@ -62,6 +88,8 @@ public class Street {
 	 */
 	@ManyToOne
 	private Barangay barangay;
+	@ManyToOne
+	private City city;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -144,7 +172,7 @@ public class Street {
 	@PersistenceContext
 	transient EntityManager entityManager;
 
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("streetName", "barangay");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("streetName", "barangay","city");
 
 	public static final EntityManager entityManager() {
 		EntityManager em = new Barangay().entityManager;
