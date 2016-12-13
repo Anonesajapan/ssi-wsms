@@ -46,6 +46,22 @@ public class Customer {
 	@Size(max = 100)
 	private String CustomerName;
 	
+	@NotEmpty
+	@Size(max = 12)
+	private String ContactNumber;
+	
+	@NotEmpty
+	@Size(max = 100)
+	private String Website;
+	
+	@NotEmpty
+	@Size(max = 100)
+	private String Email;
+	
+	
+	
+	
+	
 	@ManyToOne
 	private IndustryType industryType;
 
@@ -114,8 +130,32 @@ public class Customer {
 	@PersistenceContext
     transient EntityManager entityManager;
 	
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","City","Barangay","Street","Area");
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerName","IndustryType", "CustomerType", "LocationType","City","Barangay","Street","Area","ContactNumber", "Website", "Email");
 	 
+	public String getContactNumber() {
+		return ContactNumber;
+	}
+
+	public void setContactNumber(String contactNumber) {
+		ContactNumber = contactNumber;
+	}
+
+	public String getWebsite() {
+		return Website;
+	}
+
+	public void setWebsite(String website) {
+		Website = website;
+	}
+
+	public String getEmail() {
+		return Email;
+	}
+
+	public void setEmail(String email) {
+		Email = email;
+	}
+
 	public City getCity() {
 		return city;
 	}

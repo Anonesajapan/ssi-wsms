@@ -24,7 +24,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
+import com.google.gson.Gson;
+
 import ph.com.smesoft.wsms.domain.Area;
+import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.domain.Street;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.service.AreaService;
 import ph.com.smesoft.wsms.service.CityService;
@@ -61,7 +65,7 @@ public class AreaController {
 	    	 bindingResult.reject("Area", "Invalid entry of Characters");
 	    	 populateEditForm(uiModel, Area);
 	        	 //uiModel.asMap().clear();
-	         return "Area/create";
+	         return "Area/list";
 	    } 
 		if (bindingResult.hasErrors()) {
             populateEditForm(uiModel, Area);
@@ -278,6 +282,26 @@ public class AreaController {
 		//return searchResult;
 		return new ResponseEntity<String>(searchResult,headers, HttpStatus.OK);
 	}*/
+	
+	@RequestMapping(value="/{cityId}", method=RequestMethod.GET, params="barangay")
+	  public ResponseEntity<String> passBarangayList(@PathVariable Integer cityId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long barangayIdtoLong = Long.valueOf(cityId.longValue());
+		List<Barangay> barangayName = barangayService.findAllBarangayByCityId(barangayIdtoLong);
+		String json = new Gson().toJson(barangayName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+	
+		@RequestMapping(value="/{barangayId}", method=RequestMethod.GET, params="street")
+		public ResponseEntity<String> passStreetList(@PathVariable Integer barangayId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long streetIdtoLong = Long.valueOf(barangayId.longValue());
+		List<Street> streetName = streetService.findAllStreetByBarangayId(streetIdtoLong);
+		String json = new Gson().toJson(streetName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+		
+
 	
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
 	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {

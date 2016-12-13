@@ -98,6 +98,8 @@ public class CustomerController {
             uiModel.addAttribute("Barangay", Barangay.findAllBarangays());
             uiModel.addAttribute("Street", Street.findAllStreets());
             uiModel.addAttribute("Area", Area.findAllAreas());
+            
+            
            
             return "customer/create";
         }

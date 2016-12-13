@@ -157,6 +157,10 @@ $(document).ready(
                       <field:select field="Barangay" id="c_ph_com_smesoft_wsms_domain_customer_barangay"  required="true" itemValue="id" path="/barangays" ></field:select>
                       <field:select field="Street" id="c_ph_com_smesoft_wsms_domain_customer_street"  itemValue="id" path="/streets" required="true"></field:select>
                  	  <field:select field="Area" id="c_ph_com_smesoft_wsms_domain_customer_area"  itemValue="id" required="true" path="Area" ></field:select>                    
+               		    
+                 	    <field:input field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_mobile" max="30" min="3" required="true" />
+                 	    <field:input field="Website" id="c_ph_com_smesoft_wsms_domain_customer_website" max="30" min="3" required="true" />
+                 	    <field:input field="Email" id="c_ph_com_smesoft_wsms_domain_customer_email" max="30" min="3" required="true" />
                 </form:update>
     
         </div>   

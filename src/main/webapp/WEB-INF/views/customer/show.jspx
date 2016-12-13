@@ -27,8 +27,11 @@
                   	  <field:display field="Barangay" id="s_ph_com_smesoft_wsms_domain_customer_customerbarangay" object="${customer}" />
                   	  <field:display field="Street" id="s_ph_com_smesoft_wsms_domain_customer_customerstreet" object="${customer}" />
                   	  <field:display field="Area" id="s_ph_com_smesoft_wsms_domain_customer_area" object="${customer}" />
-                  	  
-                  	  
+                  	  <field:display field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_mobile" object="${customer}" />
+                  	  <field:display field="Website" id="c_ph_com_smesoft_wsms_domain_customer_website" object="${customer}" />
+                  	  <field:display field="Email" id="c_ph_com_smesoft_wsms_domain_customer_email" object="${customer}" />
+                  	    
+             
                   	  
                <!--    	  <page:list id="pl_ph_com_smesoft_wsms_domain_customer" items="${list}" buttonAction="/wsms/contact/${customer.id}" buttonLabel="Save New Contact">
                   	  	  <table:table data="${list}" id="l_ph_com_smesoft_wsms_domain_customer" path="/contact" >
