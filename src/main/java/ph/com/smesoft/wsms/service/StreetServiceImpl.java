@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.domain.Street;
 import ph.com.smesoft.wsms.repository.StreetRepository;
 
@@ -66,6 +67,13 @@ public class StreetServiceImpl implements StreetService {
 	public List<Street> findStreetbyStreetNumber(String searchString){
 	    TypedQuery<Street> searchResult = em.createNamedQuery("findStreetByStreetNum", Street.class);
 	    searchResult.setParameter("searchString",'%'+searchString+'%');
+	    List<Street> result=searchResult.getResultList();
+	    return result;
+	 }
+	
+	public List<Street> findAllStreetByBarangayId(Long barangayId){
+	    TypedQuery<Street> searchResult = em.createNamedQuery("streetByBarangayId", Street.class);
+	    searchResult.setParameter("barangayId",barangayId);
 	    List<Street> result=searchResult.getResultList();
 	    return result;
 	 }

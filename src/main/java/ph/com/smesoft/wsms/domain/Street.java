@@ -60,8 +60,15 @@ import flexjson.JSONSerializer;
 	    @NamedQuery(
 	    		name = "countArea",
 	    		query = "SELECT b.AreaName FROM Area b WHERE LOWER(b.AreaName) = LOWER(:search)"
-	    		)
-		
+	    		),
+	    
+	    @NamedQuery(
+	             name = "streetByBarangayId",
+	             query = "SELECT b.id, b.streetName FROM Street b, Barangay c "
+	               + "WHERE b.barangay = c and c.id = :barangayId"
+	             
+	             )
+	
 	   
 })
 

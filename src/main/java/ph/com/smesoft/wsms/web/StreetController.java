@@ -24,6 +24,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
+import com.google.gson.Gson;
+
+import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.domain.Street;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.service.BarangayService;
@@ -40,6 +43,11 @@ public class StreetController {
 	BarangayService barangayService;
 	@Autowired
 	CityService cityService;
+	
+	@Autowired
+	CityService cityservice;
+	@Autowired
+	BarangayService barangayservice;
 	
 
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
@@ -213,6 +221,7 @@ public class StreetController {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+	
 /*
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public List<Floor> listofFloor(@RequestParam("floorNumber") String searchKeyword) {
@@ -233,6 +242,19 @@ public class StreetController {
 		//return searchResult;
 		return new ResponseEntity<String>(searchResult,headers, HttpStatus.OK);
 	}*/
+	 
+
+
+	@RequestMapping(value="/{cityId}", method=RequestMethod.GET, params="barangay")
+	  public ResponseEntity<String> passBarangayList(@PathVariable Integer cityId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long barangayIdtoLong = Long.valueOf(cityId.longValue());
+		List<Barangay> barangayName = barangayservice.findAllBarangayByCityId(barangayIdtoLong);
+		String json = new Gson().toJson(barangayName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+	
+		
 	
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
 	public String listofStreet(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {

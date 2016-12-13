@@ -69,4 +69,11 @@ public class BarangayServiceImpl implements BarangayService {
 	    List<Barangay> result=searchResult.getResultList();
 	    return result;
 	 }
+	
+	public List<Barangay> findAllBarangayByCityId(Long cityId){
+	    TypedQuery<Barangay> searchResult = em.createNamedQuery("barangayByCityId", Barangay.class);
+	    searchResult.setParameter("cityId",cityId);
+	    List<Barangay> result=searchResult.getResultList();
+	    return result;
+	 }
 }

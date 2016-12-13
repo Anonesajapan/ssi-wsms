@@ -8,6 +8,141 @@ xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     
+    
+    
+        <script>
+$(document).ready(
+		function() {
+
+			
+			$("#_City_id").change(
+				       function() {
+				       value = $("#_City_id").val();
+				        console.log(value)
+				    	getAllBarangay();
+				      }   
+				    );
+
+			$("#_Barangay_id").change(
+				       function() {
+				       value = $("#_Barangay_id").val();
+				        console.log(value)
+				    	getAllStreet();
+				      }   
+				    );
+			
+			$("#_Street_id").change(
+				       function() {
+				       value = $("#_Street_id").val();
+				        console.log(value)
+				    	getAllArea();
+				      }   
+				    );
+				    
+				    function getAllBarangay() {
+				    	 $.ajax({
+				    		   
+				    	       type: "GET",
+				    	             url: "/wsms/customer/" + value + "?barangay",
+				    	             data: {cityId : value},
+				    	             success: function (data) {
+				    	            	  alert(data);
+					    	              
+				    	              var barangayName = eval('(' + data + ')');
+				    	              //alert("obj " + myObject)
+				    	              $('#_Barangay_id').empty();
+					    	            
+				    	              for (i in barangayName)
+				    	              {
+				    	                   $('#_Barangay_id').append(
+						    	               $('<option></option>', 
+							    	              { 
+							    	                  value: barangayName[i][0],
+							    	                  text: barangayName[i][1]
+							    	              }
+					    	              		)
+				    	             		 );
+				    	              }
+				    	              
+				    	             },
+				    	            error: function (e){
+				    	             alert("Error" + e)
+				    	            }
+				    	        });
+				     }
+				    
+				    function getAllStreet() {
+				    	 $.ajax({
+				    		   
+				    	       type: "GET",
+				    	             url: "/wsms/customer/" + value + "?street",
+				    	             data: {barangayId : value},
+				    	             success: function (data) {
+				    	            	  alert(data);
+					    	              
+				    	              var streetName = eval('(' + data + ')');
+				    	              //alert("obj " + myObject)
+				    	              $('#_Street_id').empty();
+					    	            
+				    	              for (i in streetName)
+				    	              {
+				    	                   $('#_Street_id').append(
+						    	               $('<option></option>', 
+							    	              { 
+							    	                  value: streetName[i][0],
+							    	                  text: streetName[i][1]
+							    	              }
+					    	              		)
+				    	             		 );
+				    	              }
+				    	              
+				    	             },
+				    	            error: function (e){
+				    	             alert("Error" + e)
+				    	            }
+				    	        });
+				     }
+				    
+				    function getAllArea() {
+				    	 $.ajax({
+				    		   
+				    	       type: "GET",
+				    	             url: "/wsms/customer/" + value + "?area",
+				    	             data: {streetId : value},
+				    	             success: function (data) {
+				    	            	  alert(data);
+					    	              
+				    	              var AreaName = eval('(' + data + ')');
+				    	              //alert("obj " + myObject)
+				    	              $('#_Area_id').empty();
+					    	            
+				    	              for (i in AreaName)
+				    	              {
+				    	                   $('#_Area_id').append(
+						    	               $('<option></option>', 
+							    	              { 
+							    	                  value: AreaName[i][0],
+							    	                  text: AreaName[i][1]
+							    	              }
+					    	              		)
+				    	             		 );
+				    	              }
+				    	              
+				    	             },
+				    	            error: function (e){
+				    	             alert("Error" + e)
+				    	            }
+				    	        });
+				     }
+		 		    
+}
+);
+</script>
+    
+    
+    
+    
+    
     <div id="wrapper">
         <div class="container-fluid">
             <div>
@@ -24,9 +159,9 @@ xmlns:spring="http://www.springframework.org/tags" version="2.0">
                  	  <field:select field="IndustryType" id="c_ph_com_smesoft_wsms_domain_customer_industryType" items="${industrytypes}" itemValue="id" required="true" path="/IndustryType" ></field:select>
                  	  <field:select field="LocationType" id="c_ph_com_smesoft_wsms_domain_customer_locationType" items="${locationtypes}" itemValue="id" required="true" path="/LocationType" ></field:select>
                  	  <field:select field="City" id="c_ph_com_smesoft_wsms_domain_customer_city" items="${cities}" required="true" itemValue="id" path="/cities" ></field:select>
-                      <field:select field="Barangay" id="c_ph_com_smesoft_wsms_domain_customer_barangay" items="${barangays}" required="true" itemValue="id" path="/barangays" ></field:select>
-                      <field:select field="Street" id="c_ph_com_smesoft_wsms_domain_customer_street" items="${streets}" itemValue="id" path="/streets" required="true"></field:select>
-                 	  <field:select field="Area" id="c_ph_com_smesoft_wsms_domain_customer_area" items="${area}" itemValue="id" required="true" path="Area" ></field:select>
+                      <field:select field="Barangay" id="c_ph_com_smesoft_wsms_domain_customer_barangay"  required="true" itemValue="id" path="/barangays" ></field:select>
+                      <field:select field="Street" id="c_ph_com_smesoft_wsms_domain_customer_street" itemValue="id" path="/streets" required="true"></field:select>
+                 	  <field:select field="Area" id="c_ph_com_smesoft_wsms_domain_customer_area" itemValue="id" required="true" path="Area" ></field:select>
                       </form:create>
                   <form:dependency dependencies="${dependencies}" id="d_ph_com_smesoft_wsms_domain_customer" render="${not empty dependencies}" />
                   

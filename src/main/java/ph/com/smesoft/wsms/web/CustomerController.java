@@ -25,6 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
+import com.google.gson.Gson;
+
 import ph.com.smesoft.wsms.domain.Area;
 import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.domain.City;
@@ -73,6 +75,7 @@ public class CustomerController {
 	StreetService streetservice;
 	@Autowired
 	AreaService areaservice;
+
 
 	
 	
@@ -291,6 +294,35 @@ public class CustomerController {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+	
+	@RequestMapping(value="/{cityId}", method=RequestMethod.GET, params="barangay")
+	  public ResponseEntity<String> passBarangayList(@PathVariable Integer cityId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long barangayIdtoLong = Long.valueOf(cityId.longValue());
+		List<Barangay> barangayName = barangayservice.findAllBarangayByCityId(barangayIdtoLong);
+		String json = new Gson().toJson(barangayName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+	
+		@RequestMapping(value="/{barangayId}", method=RequestMethod.GET, params="street")
+		public ResponseEntity<String> passStreetList(@PathVariable Integer barangayId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long streetIdtoLong = Long.valueOf(barangayId.longValue());
+		List<Street> streetName = streetservice.findAllStreetByBarangayId(streetIdtoLong);
+		String json = new Gson().toJson(streetName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+		
+		@RequestMapping(value="/{streetId}", method=RequestMethod.GET, params="area")
+		public ResponseEntity<String> passAreaList(@PathVariable Integer streetId, Model uiModel){
+		HttpHeaders headers = new HttpHeaders();
+		Long areaIdtoLong = Long.valueOf(streetId.longValue());
+		List<Area> AreaName = areaservice.findAllAreaByStreetId(areaIdtoLong);
+		String json = new Gson().toJson(AreaName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	}
+		
+		
 
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
 	public String listofCustomer(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {

@@ -21,7 +21,7 @@
                   <form:create id="fc_ph_com_smesoft_wsms_domain_Area" modelAttribute="Area" path="/Area" render="${empty dependencies}" >
                       <field:select field="city" id="c_ph_com_smesoft_wsms_domain_Area_areaCity" itemValue="id" items="${cities}" required="true" path="/cities" ></field:select>
                       <field:select field="barangay" id="c_ph_com_smesoft_wsms_domain_Area_areaBarangay" itemValue="id" items="${barangays}" required="true" path="/barangays" ></field:select>
-                      <field:select field="street" id="c_ph_com_smesoft_wsms_domain_Area_areaBarangay" itemValue="id" items="${streets}" required="true" path="/streets" ></field:select>
+                      <field:select field="street" id="c_ph_com_smesoft_wsms_domain_Area_areaStreet" itemValue="id" items="${streets}" required="true" path="/streets" ></field:select>
                       <field:input field="areaName" id="c_ph_com_smesoft_wsms_domain_Area_areaName" max="30" min="3" required="true"/>
                   </form:create>
                   <form:dependency dependencies="${dependencies}" id="d_ph_com_smesoft_wsms_domain_Area" render="${not empty dependencies}" />

@@ -6,41 +6,69 @@ xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields"
 xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
 xmlns:spring="http://www.springframework.org/tags" version="2.0">
 
+
 	
-	<spring:url var="area" value="/resources/images/Area.png" />  
-	<spring:url var="customer" value="/resources/images/CustomerList.png" /> 
-	<spring:url var="location" value="/resources/images/Location.png" />
-	<spring:url var="industry" value="/resources/images/IndustryType.png" />
 	
+	<spring:url var="customertype" value="/resources/images/customertype.png" />
+	<spring:url var="city" value="/resources/images/city.png" />
+	<spring:url var="barangay" value="/resources/images/barangay.png" />
+	<spring:url var="industrytype" value="/resources/images/industrytype.png" />
+	<spring:url var="locationtype" value="/resources/images/location.png" />  
+	<spring:url var="streets" value="/resources/images/street.png" />  
+	<spring:url var="area" value="/resources/images/area.png" /> 
 	
 
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    	<div id="wrapper">
-       		<div class="container-fluid">
-       		
-       			<div class="row">
-       				<div class="col-xs-4 col-sm-2 col-lg-4">
+<div id="wrapper">
+       		<div class="container">
+       				<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 ">
 	       				<div class="row">
-						<div class="col-xs-3 col-sm-2 col-lg-5 btn btn-default hvr-bounce-to-right" style="margin:3px
-						;">
-								<a href= "/wsms/CustomerType?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${customer}" class="shadowEffect img-responsive"/><h5>Customer Type</h5></center></a>
-							</div>
-							<div class="col-xs-3 col-sm-2 col-lg-5 btn btn-default hvr-bounce-to-right" style="margin:3px;">
-								<a href="/wsms/Area?pa3e=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${area}" class="shadowEffect img-responsive" width="128" height="128"/><h5>Area</h5></center></a>
-							</div>
-							<div class="col-xs-3 col-sm-1 col-lg-5 btn btn-default hvr-bounce-to-right" style="margin:3px;">
-								<a href="/wsms/LocationType?pa3e=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${location}" class="shadowEffect img-responsive"/><h5>Location Type</h5></center></a>
+	       				<div class="try">
+	       				<div class="col-md-6 col-sm-12 col-lg-6 col-xs-12  btn btn-default hvr-bounce-to-right">
+	       				<a href="/wsms/CustomerType?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${customertype}" class=" img-responsive" style="width:80px;"/><h3>Customer Type</h3></center></a>
 							</div>
 							
-						
-								<div class="col-xs-3 col-sm-1 col-lg-5 btn btn-default hvr-bounce-to-right" style="margin:3px;">
-								<a href="/wsms/IndustryType?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${industry}" class="shadowEffect img-responsive"/><h5>Industry Type</h5></center></a>
+							<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12   btn btn-default1 hvr-bounce-to-right col-md-push-1  ">
+			<a href="/wsms/cities?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${city}" class="shadowEffect img-responsive " style="width:80px;"/><h3>City</h3></center></a>
 							</div>
-							
-						</div>
-       				</div>
-       			</div>	 
-			</div>     	  
-			</div>	 
+							<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12 btn btn-default1 hvr-bounce-to-right col-md-push-2  ">
+			<a href="/wsms/barangays?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${barangay}" class="shadowEffect img-responsive " style="width:80px;"/><h3>Barangay</h3></center></a>
 			</div>
+       		</div>
+       		</div>
+       				<div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+	       				<div class="row">
+	       				<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12 btn btn-default2 hvr-bounce-to-right col-md-pull-1 ">
+			
+	       				<a href="/wsms/IndustryType?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${industrytype}" class="shadowEffect img-responsive " style="width:80px;"/><h3>Industry Type</h3></center></a>
+						</div>
+					
+	       				<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12 btn btn-default2 hvr-bounce-to-right col-md-push-1   ">
+			
+	       				<a href="/wsms/LocationType?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${locationtype}" class="shadowEffect img-responsive " style="width:80px;"/><h3>Location Type</h3></center></a>
+						</div>
+						<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12 btn btn-default3 hvr-bounce-to-right col-md-push-3   ">
+			
+	       				<a href="/wsms/streets?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${streets}" class="shadowEffect img-responsive " style="width:80px;"/><h3>Streets</h3></center></a>
+						</div>
+						<div class="col-md-3 col-sm-12 col-lg-3 col-xs-12 btn btn-default3 hvr-bounce-to-right col-md-push-4   ">
+			
+			
+	       				<a href="/wsms/Area?page=1&amp;size=${empty param.size ? 10 : param.size}" class=""><center><img src="${area}" class="shadowEffect img-responsive " style="width:80px;"/><h3>Area</h3></center></a>
+							</div>
+				       		</div>
+				       		</div>
+				       		</div>
+				       		
+				       		
+				  </div> 
+				  </div> 
+  </div>
+  
+  
+  
+  
+  
+  
+  

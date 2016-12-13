@@ -74,9 +74,14 @@ import flexjson.JSONSerializer;
 			name = "findAllAreaByStreetId",
 			query = "SELECT b FROM Area b WHERE b.street.id = :streetId"
 			),
-	
+	 @NamedQuery(
+             name = "areaByStreetId",
+             query = "SELECT b.id, b.AreaName FROM Area b, Street c "
+               + "WHERE b.street = c and c.id = :streetId"
+             )
 	
 
+    
 })
 
 @Configurable

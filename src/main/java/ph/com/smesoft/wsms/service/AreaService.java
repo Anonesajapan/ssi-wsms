@@ -27,6 +27,8 @@ public interface AreaService {
 
 
 		public abstract Area updateArea(Area barangay);
+		
+		public List<Area> findAllAreaByStreetId(Long streetId);
 
 	    //public abstract List<Floor> findFloorbyFloorNumber(String searchKeyword);
 	    //public abstract String findFloorbyFloorNumber(String searchString);

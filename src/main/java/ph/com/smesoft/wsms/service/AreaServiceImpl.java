@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ph.com.smesoft.wsms.domain.Area;
+import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.repository.AreaRepository;
 
 @Service
@@ -73,12 +74,22 @@ public class AreaServiceImpl implements AreaService{
 	    return result;
 	 }
 	
+	
+
+	
 	public long checkIfAreaExist(String searchString){
 	    TypedQuery<Area> searchResult = em.createNamedQuery("countArea", Area.class);
 	    searchResult.setParameter("search",searchString);
 	    List<Area> result = searchResult.getResultList();
 	    int count = result.size();
 	    return count;
+	 }
+	
+	public List<Area> findAllAreaByStreetId(Long streetId){
+	    TypedQuery<Area> searchResult = em.createNamedQuery("areaByStreetId", Area.class);
+	    searchResult.setParameter("streetId",streetId);
+	    List<Area> result=searchResult.getResultList();
+	    return result;
 	 }
 	
 	public boolean checkRegex(String input, String user_pattern){
