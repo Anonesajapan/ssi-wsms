@@ -46,10 +46,17 @@ public class CustomerType {
 	@Column(unique=true)
     @Size(min=1, max=30)
     private String CustomerTypeName;
+	
+	private String customerTypeDescription;
     
     
 
-    @PersistenceContext
+    
+
+
+
+
+	@PersistenceContext
     transient EntityManager entityManager;
 
     public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("CustomerTypeName");
@@ -149,6 +156,14 @@ public class CustomerType {
 
 	public void setCustomerTypeName(String customerTypeName) {
 		CustomerTypeName = customerTypeName;
+	}
+	
+	public String getCustomerTypeDescription() {
+		return customerTypeDescription;
+	}
+
+	public void setCustomerTypeDescription(String customerTypeDescription) {
+		this.customerTypeDescription = customerTypeDescription;
 	}
 
 

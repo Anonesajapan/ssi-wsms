@@ -147,30 +147,33 @@ $(document).ready(
         <div class="container-fluid">
             <div>
                 <ol class="breadcrumb">
-                  <li class="disabled"><a>customer</a></li>
+                  <li class="disabled"><a>Customer</a></li>
                   <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Customer</a></li>
-                  <li class="active"><span>Register customer</span></li>
+                  <li class="active"><span>Register Customer</span></li>
                  </ol>
             </div>
     
-                  <form:create id="fc_ph_com_smesoft_wsms_domain_customer" modelAttribute="customer" path="/customer" render="${empty dependencies}"  >
-                      <field:input field="CustomerName" id="c_ph_com_smesoft_wsms_domain_customer_customerName" max="30" min="3" required="true" />
-                 	  <field:select field="CustomerType" id="c_ph_com_smesoft_wsms_domain_customer_customerType" items="${customertypes}" itemValue="id" required="true" path="/CustomerType" ></field:select>
-                 	  <field:select field="IndustryType" id="c_ph_com_smesoft_wsms_domain_customer_industryType" items="${industrytypes}" itemValue="id" required="true" path="/IndustryType" ></field:select>
-                 	  <field:select field="LocationType" id="c_ph_com_smesoft_wsms_domain_customer_locationType" items="${locationtypes}" itemValue="id" required="true" path="/LocationType" ></field:select>
-                 	  <field:select field="City" id="c_ph_com_smesoft_wsms_domain_customer_city" items="${cities}" required="true" itemValue="id" path="/cities" ></field:select>
-                      <field:select field="Barangay" id="c_ph_com_smesoft_wsms_domain_customer_barangay"  required="true" itemValue="id" path="/barangays" ></field:select>
-                      <field:select field="Street" id="c_ph_com_smesoft_wsms_domain_customer_street" itemValue="id" path="/streets" required="true"></field:select>
-                 	  <field:select field="Area" id="c_ph_com_smesoft_wsms_domain_customer_area" itemValue="id" required="true" path="Area" ></field:select>
-                 	  
-                 	    <field:input field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_mobile" max="30" min="3" required="true" />
-                 	    <field:input field="Website" id="c_ph_com_smesoft_wsms_domain_customer_website" max="30" min="3" required="true" />
-                 	    <field:input field="Email" id="c_ph_com_smesoft_wsms_domain_customer_email" max="30" min="3" required="true" />
-                      </form:create>
+                  <form:createCustomer id="fc_ph_com_smesoft_wsms_domain_customer" modelAttribute="customer" path="/customer" render="${empty dependencies}"  >
+                     <div class="row">
+                     	<div class="col-lg-6">
+	                      <field:input field="CustomerName" id="c_ph_com_smesoft_wsms_domain_customer_customerName" max="30" min="3" required="true" />
+	                 	  <field:select field="CustomerType" id="c_ph_com_smesoft_wsms_domain_customer_customerType" items="${customertypes}" itemValue="id" required="true" path="/CustomerType" ></field:select>
+	                 	  <field:select field="IndustryType" id="c_ph_com_smesoft_wsms_domain_customer_industryType" items="${industrytypes}" itemValue="id" required="true" path="/IndustryType" ></field:select>
+	                 	  <field:select field="LocationType" id="c_ph_com_smesoft_wsms_domain_customer_locationType" items="${locationtypes}" itemValue="id" required="true" path="/LocationType" ></field:select>
+	                 	  <field:select field="City" id="c_ph_com_smesoft_wsms_domain_customer_city" items="${cities}" required="true" itemValue="id" path="/cities" ></field:select>
+	                      <field:select field="Barangay" id="c_ph_com_smesoft_wsms_domain_customer_barangay"  required="true" itemValue="id" path="/barangays" ></field:select>
+	                      <field:select field="Street" id="c_ph_com_smesoft_wsms_domain_customer_street" itemValue="id" path="/streets" required="true"></field:select>
+	                 	  <field:select field="Area" id="c_ph_com_smesoft_wsms_domain_customer_area" itemValue="id" required="true" path="Area" ></field:select>
+	                 	</div>
+	                 	<div class="col-lg-6">  
+	                 	    <field:input field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_contactnumber" max="30" min="3" required="true" />
+	                 	    <field:input field="Website" id="c_ph_com_smesoft_wsms_domain_customer_website" max="30" min="3" required="true" />
+	                 	    <field:input field="Email" id="c_ph_com_smesoft_wsms_domain_customer_email" max="30" min="3" required="true" />
+	                 	    
+	                 	</div>
+	                 </div>    
+                      </form:createCustomer>
                   <form:dependency dependencies="${dependencies}" id="d_ph_com_smesoft_wsms_domain_customer" render="${not empty dependencies}" />
-                  
-                  
-
-           </div>   
-       </div>   
+		</div>   
+	</div>   
 </div>

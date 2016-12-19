@@ -47,10 +47,13 @@ public class LocationType {
 	@Column(unique=true)
     @Size(min=1, max=30)
     private String LocationTypeName;
-    
+	
+	private String LocationTypeDescription;
     
 
-    @PersistenceContext
+
+
+	@PersistenceContext
     transient EntityManager entityManager;
 
     public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("LocationTypeName");
@@ -151,6 +154,15 @@ public class LocationType {
 	public void setLocationTypeName(String locationTypeName) {
 		LocationTypeName = locationTypeName;
 	}
+	
+	public String getLocationTypeDescription() {
+		return LocationTypeDescription;
+	}
+
+	public void setLocationTypeDescription(String locationTypeDescription) {
+		LocationTypeDescription = locationTypeDescription;
+	}
+
 
 
 

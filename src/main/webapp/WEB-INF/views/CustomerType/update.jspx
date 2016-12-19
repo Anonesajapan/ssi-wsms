@@ -13,8 +13,9 @@
                  </ol>
             </div>
     
-                  <form:update id="fu_ph_com_smesoft_wsms_domain_Customertype" modelAttribute="CustomerType" path="/CustomerType" versionField="Version" z="Vz89WdEXcv2QOn4oTHTRJPOwEP0=">
+                  <form:update id="fu_ph_com_smesoft_wsms_domain_Customertype" modelAttribute="customertype" path="/CustomerType" versionField="Version" z="Vz89WdEXcv2QOn4oTHTRJPOwEP0=">
                       <field:input field="customerTypeName" id="c_ph_com_smesoft_wsms_domain_Customertype_customerTypeName" max="30" min="3" required="true" z="hFaIf05Zh3DHyjRgHSJ6T2PgcIs="/>
+                      <field:textarea field="customerTypeDecription" id="c_ph_com_smesoft_wsms_domain_Customertype_customerTypeDecription"></field:textarea>
                   </form:update>
     
         </div>   

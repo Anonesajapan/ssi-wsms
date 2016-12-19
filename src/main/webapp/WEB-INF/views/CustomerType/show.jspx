@@ -19,6 +19,7 @@
         
                   <page:show id="ps_ph_com_smesoft_wsms_domain_Customertype" object="${customertype}" path="/CustomerType" z="XmgSUNTaw/S287IKejvqSXTBaWA=">
                       <field:display field="customerTypeName" id="s_ph_com_smesoft_wsms_domain_Customertype_customerTypeName" object="${customertype}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                      <field:display field="customerTypeDescription" id="s_ph_com_smesoft_wsms_domain_Customertype_customerTypeDescription" object="${customertype}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
                   </page:show>
 
         </div>   

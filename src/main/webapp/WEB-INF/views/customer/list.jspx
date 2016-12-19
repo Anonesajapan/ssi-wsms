@@ -20,7 +20,9 @@ version="2.0">
                       <table:table data="${customer}" id="l_ph_com_smesoft_wsms_domain_customer" path="/customer" pathToContact="contact?form">
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_id" property="id" />
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerName" property="CustomerName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerType" property="CustomerType" />
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_industryType" property="IndustryType" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_locationType" property="LocationType" />
                       </table:table>
                   	</page:list>
 

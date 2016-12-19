@@ -19,6 +19,7 @@ version="2.0">
                      <page:list id="pl_ph_com_smesoft_wsms_domain_industrytype" items="${industrytypes}" buttonAction="/wsms/IndustryType?form" buttonLabel="Register Industry Type" searchAction="/wsms/IndustryType/search">
                       <table:table data="${industrytypes}" id="l_ph_com_smesoft_wsms_domain_Industrytype" path="/IndustryType" >
                           <table:column id="c_ph_com_smesoft_wsms_domain_Industrytype_industryTypeName" property="industryTypeName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_Industrytype_industryTypeDescription" property="industryTypeDescription" />
                       </table:table>
                   </page:list>
 

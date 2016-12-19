@@ -19,6 +19,8 @@
             </div>
         
                   <page:show id="ps_ph_com_smesoft_wsms_domain_customer" object="${customer}" path="/customer" z="XmgSUNTaw/S287IKejvqSXTBaWA=">
+                      <div class="row">
+ 						<div class="col-lg-6">
                       <field:display field="id" id="s_ph_com_smesoft_wsms_domain_customer_id" object="${customer}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
                       <field:display field="customerName" id="s_ph_com_smesoft_wsms_domain_customer_customerName" object="${customer}" z="WiR3MbBW/TqqoI5bvdXG5bAI594="/>
                       <field:display field="industryType" id="s_ph_com_smesoft_wsms_domain_customer_industryType" object="${customer}" />
@@ -27,23 +29,18 @@
                   	  <field:display field="Barangay" id="s_ph_com_smesoft_wsms_domain_customer_customerbarangay" object="${customer}" />
                   	  <field:display field="Street" id="s_ph_com_smesoft_wsms_domain_customer_customerstreet" object="${customer}" />
                   	  <field:display field="Area" id="s_ph_com_smesoft_wsms_domain_customer_area" object="${customer}" />
-                  	  <field:display field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_mobile" object="${customer}" />
+                  	 
+                  	 </div>
+                  	
+ 						<div class="col-lg-6">
+ 						 <field:display field="ContactNumber" id="c_ph_com_smesoft_wsms_domain_customer_contactnumber" object="${customer}" />
                   	  <field:display field="Website" id="c_ph_com_smesoft_wsms_domain_customer_website" object="${customer}" />
                   	  <field:display field="Email" id="c_ph_com_smesoft_wsms_domain_customer_email" object="${customer}" />
                   	    
-             
+             </div>
+             </div>
                   	  
-               <!--    	  <page:list id="pl_ph_com_smesoft_wsms_domain_customer" items="${list}" buttonAction="/wsms/contact/${customer.id}" buttonLabel="Save New Contact">
-                  	  	  <table:table data="${list}" id="l_ph_com_smesoft_wsms_domain_customer" path="/contact" >
-                  	   	  <table:column id="c_ph_com_smesoft_wsms_domain_customer_fax" property="FirstName" />
-                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_mobile" property="LastName" />
-                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_fax" property="fax" />
-                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_mobile" property="mobile" />
-                     	  <table:column id="c_ph_com_smesoft_wsms_domain_customer_phone" property="phone" />
-                     	  <table:column id="c_ph_com_smesoft_wsms_domain_customer_email" property="email" />
-                       </table:table>
-                      </page:list>
-                      --> 
+              
                   </page:show>
                   
                     

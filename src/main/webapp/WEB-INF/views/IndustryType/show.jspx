@@ -19,6 +19,7 @@
         
                   <page:show id="ps_ph_com_smesoft_wsms_domain_Industrytype" object="${industrytypes}" path="/IndustryType" z="XmgSUNTaw/S287IKejvqSXTBaWA=">
                   <field:display field="industryTypeName" id="s_ph_com_smesoft_wsms_domain_Industrytype_industryTypeName" object="${industrytypes}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                  <field:display field="industryTypeDescription" id="s_ph_com_smesoft_wsms_domain_Industrytype_industryTypeDescription" object="${industrytypes}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
                   </page:show>
 
         </div>   

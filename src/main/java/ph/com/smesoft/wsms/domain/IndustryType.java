@@ -47,10 +47,13 @@ public class IndustryType {
     @Size(min=1, max=30)
 	@NotEmpty
 	private String industryTypeName;
+	
+	private String industryTypeDescription;
     
     
 
-    @PersistenceContext
+
+	@PersistenceContext
     transient EntityManager entityManager;
 
     public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("industryTypeName");
@@ -147,6 +150,15 @@ public class IndustryType {
 
 	public void setIndustryTypeName(String industryTypeName) {
 		this.industryTypeName = industryTypeName;
+	}
+	
+
+    public String getIndustryTypeDescription() {
+		return industryTypeDescription;
+	}
+
+	public void setIndustryTypeDescription(String industryTypeDescription) {
+		this.industryTypeDescription = industryTypeDescription;
 	}
 
 

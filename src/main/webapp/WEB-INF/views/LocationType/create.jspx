@@ -16,6 +16,7 @@
     
                   <form:create id="fc_ph_com_smesoft_wsms_domain_LocationType" modelAttribute="LocationType" path="/LocationType" render="${empty dependencies}" >
                       <field:input field="locationTypeName" id="c_ph_com_smesoft_wsms_domain_LocationType_locationTypeName" max="30" min="3" required="true"/>
+                      <field:textarea field="locationTypeDescription" id="c_ph_com_smesoft_wsms_domain_LocationType_locationTypeDescription"></field:textarea>
                   </form:create>
                   <form:dependency dependencies="${dependencies}" id="d_ph_com_smesoft_wsms_domain_LocationType" render="${not empty dependencies}" />
 

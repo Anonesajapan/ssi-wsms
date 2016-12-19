@@ -17,6 +17,7 @@ xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     
                   <form:update id="fu_ph_com_smesoft_wsms_domain_Industrytype" modelAttribute="industrytype" path="/IndustryType" versionField="Version" z="Vz89WdEXcv2QOn4oTHTRJPOwEP0=">
                       <field:input field="industryTypeName" id="c_ph_com_smesoft_wsms_domain_Industrytype_industryTypeName" max="30" min="3" required="true" z="hFaIf05Zh3DHyjRgHSJ6T2PgcIs="/>
+                  	<field:textarea field="industryTypeDescription" id="c_ph_com_smesoft_wsms_domain_Industrytype_industryTypeDescription"></field:textarea>
                   </form:update>
     
         </div>   

@@ -140,7 +140,7 @@ public class CustomerTypeController {
     }
 
 	void populateEditForm(Model uiModel, CustomerType CustomerType) {
-        uiModel.addAttribute("CustomerType", CustomerType);
+        uiModel.addAttribute("customertype", CustomerType);
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

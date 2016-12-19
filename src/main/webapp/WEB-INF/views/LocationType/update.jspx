@@ -15,6 +15,7 @@
     
                   <form:update id="fu_ph_com_smesoft_wsms_domain_LocationType" modelAttribute="LocationType" path="/LocationType" versionField="Version" z="Vz89WdEXcv2QOn4oTHTRJPOwEP0=">
                       <field:input field="locationTypeName" id="c_ph_com_smesoft_wsms_domain_LocationType_locationTypeName" max="30" min="3" required="true" z="hFaIf05Zh3DHyjRgHSJ6T2PgcIs="/>
+                  	<field:textarea field="locationTypeDescription" id="c_ph_com_smesoft_wsms_domain_LocationType_locationTypeDescription"></field:textarea>
                   </form:update>
     
         </div>   
