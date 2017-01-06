@@ -61,6 +61,13 @@ public class ContactServiceImpl implements ContactService {
 	    List<Contact> result=searchResult.getResultList();
 	    return result;
 	 }
+	
+	public List<Contact> findContactDetailsByCustomerId(Long search){
+		  TypedQuery<Contact> searchResult = em.createNamedQuery("findAllContactByCustomerId", Contact.class);
+		  searchResult.setParameter("customerId", search);
+		  List<Contact> result = searchResult.getResultList();
+		  return result;
+		 }
 
 	
 		

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,9 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
-
 import com.google.gson.Gson;
-
 import ph.com.smesoft.wsms.domain.Area;
 import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.domain.City;
@@ -34,21 +31,15 @@ import ph.com.smesoft.wsms.domain.Contact;
 import ph.com.smesoft.wsms.domain.Customer;
 import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.dto.SearchForm;
-import ph.com.smesoft.wsms.repository.IndustryTypeRepository;
 import ph.com.smesoft.wsms.service.AreaService;
 import ph.com.smesoft.wsms.service.CustomerService;
 import ph.com.smesoft.wsms.service.CustomerTypeService;
-import ph.com.smesoft.wsms.service.FloorService;
 import ph.com.smesoft.wsms.service.IndustryTypeService;
-import ph.com.smesoft.wsms.service.IndustryTypeServiceImpl;
 import ph.com.smesoft.wsms.service.LocationTypeService;
-import ph.com.smesoft.wsms.service.CityServiceImpl;
-import ph.com.smesoft.wsms.service.BarangayServiceImpl;
-import ph.com.smesoft.wsms.service.StreetServiceImpl;
 import ph.com.smesoft.wsms.service.CityService;
+import ph.com.smesoft.wsms.service.ContactService;
 import ph.com.smesoft.wsms.service.BarangayService;
 import ph.com.smesoft.wsms.service.StreetService;
-import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
 import ph.com.smesoft.wsms.domain.LocationType;
 import ph.com.smesoft.wsms.domain.Street;
@@ -76,15 +67,8 @@ public class CustomerController {
 	@Autowired
 	AreaService areaservice;
 
-
-	
-	
-	
-	
-	
-	
-	
-	
+	@Autowired
+	ContactService contactService;
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid Customer customer, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
@@ -99,23 +83,12 @@ public class CustomerController {
             uiModel.addAttribute("Street", Street.findAllStreets());
             uiModel.addAttribute("Area", Area.findAllAreas());
             
-            
-           
             return "customer/create";
-        }
-       
-        	
-        
-      
+        }      
         customerService.saveCustomer(customer);
-        return "redirect:/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);
-        
-		
-		
+        return "redirect:/customer/" + encodeUrlPathSegment(customer.getId().toString(), httpServletRequest);	
      }
 	
-	
-
 	@RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
         populateEditForm(uiModel, new Customer());
@@ -127,9 +100,17 @@ public class CustomerController {
     public String show(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("customer", customerService.findCustomer(id));
         uiModel.addAttribute("itemId", id);
+        uiModel.addAttribute("contactdetails", contactService.findContactDetailsByCustomerId(id));
+        
         return "customer/show";
     }
 		
+	@RequestMapping(value = "/{id}",  params = "contact", produces = "text/html")
+    public String showcontact(@PathVariable("id") Long id, Model uiModel) {
+        uiModel.addAttribute("contactdetails", contactService.findContactDetailsByCustomerId(id));
+        
+        return "customer/showcontact";
+    }
 	
 	@RequestMapping(params = "/{id}/add", produces = "text/html")
     public String addForm(Model uiModel) {
@@ -328,7 +309,7 @@ public class CustomerController {
 
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
 	public String listofCustomer(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("customer", customerTypeService.findCustomerTypebyCustomerTypeNumber(searchForm.getSearchString()));
+		uiModel.addAttribute("customer", customerService.findCustomerbyid(searchForm.getSearchString()));
 		return "customer/list";
 	}
 	

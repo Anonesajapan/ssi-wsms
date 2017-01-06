@@ -17,7 +17,7 @@ version="2.0">
                      </div>
                      
                      <page:list id="pl_ph_com_smesoft_wsms_domain_customer" items="${customer}" buttonAction="/wsms/customer?form" buttonLabel="Register New Customer" searchAction="/wsms/customer/search">
-                      <table:table data="${customer}" id="l_ph_com_smesoft_wsms_domain_customer" path="/customer" pathToContact="contact?form">
+                      <table:table data="${customer}" id="l_ph_com_smesoft_wsms_domain_customer" path="/customer" pathToContact="/contact">
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_id" property="id" />
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerName" property="CustomerName" />
                           <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerType" property="CustomerType" />

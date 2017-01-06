@@ -15,7 +15,9 @@ import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
 import ph.com.smesoft.wsms.domain.LocationType;
 import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.domain.Category;
 import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.CategoryService;
 import ph.com.smesoft.wsms.domain.Street;
 import ph.com.smesoft.wsms.service.StreetService;
 import ph.com.smesoft.wsms.domain.City;
@@ -231,7 +233,33 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             }
         };
     }
+	
+	@Autowired
+    CustomerService customerservice;
 
+ public Converter<Customer, String> getcustomerToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Customer, java.lang.String>() {
+            public String convert(Customer customer) {
+                return new StringBuilder().append(customer.getCustomerName()).toString();
+            }
+        };
+    }
+
+ public Converter<Long, Customer> getIdTocustomerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Customer>() {
+            public ph.com.smesoft.wsms.domain.Customer convert(java.lang.Long id) {
+                return customerservice.findCustomer(id);
+            }
+        };
+    }
+
+ public Converter<String, Customer> getStringTocustomerConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Customer>() {
+            public ph.com.smesoft.wsms.domain.Customer convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Customer.class);
+            }
+        };
+    }
 	
 	@Autowired
     LocationTypeService LocationTypeService;
@@ -313,6 +341,43 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
             }
         };
     }
+	
+	@Autowired
+    CategoryService categoryService;
+
+	public Converter<Category, String> getCategoryToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Category, java.lang.String>() {
+            public String convert(Category category) {
+                return new StringBuilder().append(category.getCategoryName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Category> getIdToCategoryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Category>() {
+            public ph.com.smesoft.wsms.domain.Category convert(java.lang.Long id) {
+                return categoryService.findCategory(id);
+            }
+        };
+    }
+
+	public Converter<String, Category> getStringToCategoryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Category>() {
+            public ph.com.smesoft.wsms.domain.Category convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Category.class);
+            }
+        };
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public void installLabelConverters(FormatterRegistry registry) {
         registry.addConverter(getFloorToStringConverter());
@@ -349,6 +414,13 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         registry.addConverter(getIdToStreetConverter());
         registry.addConverter(getStringToStreetConverter());
         
+        registry.addConverter(getCustomerToStringConverter());
+        registry.addConverter(getIdToCustomerConverter());
+        registry.addConverter(getStringToCustomerConverter());
+        
+        registry.addConverter(getCategoryToStringConverter());
+        registry.addConverter(getIdToCategoryConverter());
+        registry.addConverter(getStringToCategoryConverter());
         
     }
 

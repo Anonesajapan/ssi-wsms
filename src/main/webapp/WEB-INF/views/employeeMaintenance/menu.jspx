@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div 
+	xmlns:jsp="http://java.sun.com/JSP/Page" 
+	xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+	xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+	xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+	<spring:url var="customertype" value="/resources/images/customertype.png" />
+	<spring:url var="city" value="/resources/images/city.png" />
+	<spring:url var="barangay" value="/resources/images/barangay.png" />
+	<spring:url var="industrytype" value="/resources/images/industrytype.png" />
+	<spring:url var="locationtype" value="/resources/images/location.png" />  
+	<spring:url var="streets" value="/resources/images/street.png" />  
+	<spring:url var="area" value="/resources/images/area.png" /> 
+	<spring:url var="businessinfo" value="/resources/images/businessinfo.png" /> 
+	
+    <jsp:directive.page contentType="text/html;charset=UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
+	
+	<div id="wrapper1">
+		<div class="container">
+			<ul class="nav nav-tabs nav-justified">
+				<li><a href="/wsms/customerMaintenance?page=1&amp;size=${empty param.size ? 10 : param.size}">Customer Maintenance</a></li>
+			  	<li class="active"><a href="/wsms/employeeMaintenance?page=1&amp;size=${empty param.size ? 10 : param.size}">Employee Maintenance</a></li>
+			  	<li><a href="/wsms/productMaintenance?page=1&amp;size=${empty param.size ? 10 : param.size}">Product Maintenance</a></li>
+			</ul>
+				
+			<div class="tab-content">
+				<div class="tab-pane active" id="employee">
+					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="row">
+							<div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 btn btn-default1 hvr-fade">
+								<a href=""><center><img src="${customertype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>DEPARTMENT</h3></center></a>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 btn btn-default1 hvr-fade">
+								<a href=""><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>JOB TITLE</h3></center></a>
+							</div>
+		       			</div>
+					</div> 
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>

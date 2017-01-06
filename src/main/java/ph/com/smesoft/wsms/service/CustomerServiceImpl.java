@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	public List<Customer> findCustomerbyid(String searchString){
 	    TypedQuery<Customer> searchResult = em.createNamedQuery("findCustomerByid", Customer.class);
-	    searchResult.setParameter("search",'%'+searchString+'%');
+	    searchResult.setParameter("searchString",'%'+searchString+'%');
 	    List<Customer> result=searchResult.getResultList();
 	    return result;
 	 }

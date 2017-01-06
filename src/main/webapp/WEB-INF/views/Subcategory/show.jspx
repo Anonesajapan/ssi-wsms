@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+        xmlns:jsp="http://java.sun.com/JSP/Page" 
+        xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+        version="2.0">
+       
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div>
+                <ol class="breadcrumb">
+                  <li class="disabled"><a>Subcategory</a></li>
+                  <li><a href="/wsms/Subcategory?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Subcategorys</a></li>
+                  <li class="active"><span>Subcategory Information</span></li>
+                 </ol>
+            </div>
+        
+                  <page:show id="ps_ph_com_smesoft_wsms_domain_Subcategory" object="${subcategory}" path="/Subcategory" z="XmgSUNTaw/S287IKejvqSXTBaWA=">
+                      <field:display field="SubcategoryName" id="s_ph_com_smesoft_wsms_domain_Subcategory_SubcategoryName" object="${subcategory}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                      <field:display field="SubcategoryDescription" id="s_ph_com_smesoft_wsms_domain_Subcategory_SubcategoryDescription" object="${subcategory}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                  </page:show>
+
+        </div>   
+    </div>   
+</div>

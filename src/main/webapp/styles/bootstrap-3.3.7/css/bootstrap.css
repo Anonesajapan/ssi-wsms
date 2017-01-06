@@ -3002,7 +3002,7 @@ select[multiple].input-lg {
 }
 .btn {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 7.9px 12px !important;
   margin-bottom: 0;
   font-size: 14px;
   font-weight: normal;
@@ -3020,6 +3020,7 @@ select[multiple].input-lg {
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
+  
 }
 .btn:focus,
 .btn:active:focus,
@@ -3060,6 +3061,7 @@ fieldset[disabled] a.btn {
   color: #333;
   background-color: #fff;
   border-color: #ccc;
+  
 }
 .btn-default:focus,
 .btn-default.focus {

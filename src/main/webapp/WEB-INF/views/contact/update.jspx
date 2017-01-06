@@ -8,8 +8,8 @@
             <div>
                 <ol class="breadcrumb">
                   <li class="disabled"><a>Customer</a></li>
-                  <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Customer</a></li>
-                  <li class="active"><span>Update Customer Information</span></li>
+                  <li><a href="/wsms/contact?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Contact</a></li>
+                  <li class="active"><span>Update Contact Information</span></li>
                  </ol>
             </div>
     

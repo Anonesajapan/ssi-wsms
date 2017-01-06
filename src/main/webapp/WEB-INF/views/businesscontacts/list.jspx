@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div 
+xmlns:jsp="http://java.sun.com/JSP/Page" 
+xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+       <div id="wrapper">
+           <div class="container-fluid">
+                   
+                     
+                     <page:list id="pl_ph_com_smesoft_wsms_domain_Businesscontact" items="${businesscontacts}" buttonAction="/wsms/businesscontacts?form" buttonLabel="Register Businesscontact" searchAction="/wsms/businesscontacts/search">
+                      <table:table data="${businesscontacts}" id="l_ph_com_smesoft_wsms_domain_Businesscontact" path="/businesscontacts" >
+                          <table:column id="c_ph_com_smesoft_wsms_domain_Businesscontact_businessContactName" property="businessContactName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_emailname" property="EmailName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_phoneonename" property="PhoneoneName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_phonetwoname" property="PhonetwoName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_faxnoname" property="FaxnoName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_offdayonename" property="OffdayoneName" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_businesscontact_offdaytwoname" property="OffdaytwoName" />
+                      </table:table>
+                  </page:list>
+
+           </div>   
+       </div>   
+</div>

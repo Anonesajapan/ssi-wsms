@@ -37,7 +37,15 @@ import flexjson.JSONSerializer;
    name = "findCustomerByid",
    query = "SELECT c FROM Customer c WHERE LOWER(c.CustomerName) LIKE LOWER(:searchString)"
        
-   )
+   ),
+
+@NamedQuery(
+		   name = "findCustomer",
+		   query = "SELECT c  FROM Customer c, LocationType l, IndustryType i  where (c.locationType = l OR c.industryType= i) AND "
+		   		+ "LOWER(l.LocationTypeName) LIKE LOWER(:searchString) OR (LOWER(c.CustomerName) LIKE LOWER(:searchString)) OR (LOWER(i.industryTypeName) LIKE LOWER(:searchString))"
+		   			
+		       
+		   )
 })
 public class Customer {
 

@@ -44,15 +44,33 @@ import flexjson.JSONSerializer;
            + "OR LOWER(c.Phone) LIKE LOWER(:searchString)"
            + "OR LOWER(c.Fax) LIKE LOWER(:searchString)"
            + "OR LOWER(c.Email) LIKE LOWER(:searchString)"
-)})
+),
+@NamedQuery(
+		 name = "findAllContactByCustomerId",
+		  query = "SELECT c FROM Contact c, Customer s "
+		       + "WHERE c.customer = s and s.id = :customerId"
+		   
+		  )
+
+})
+
+
 
 public class Contact {
+	
+	@ManyToOne
+	private Customer customer;
+	
 	
 	@NotEmpty
 	@Size(max = 30)
 	private String FirstName;
 	@Size(max = 30)
 	private String MiddleName;
+
+
+
+
 	@NotEmpty
 	@Size(max = 30)
 	private String LastName;
@@ -72,8 +90,7 @@ public class Contact {
     @PersistenceContext
     transient EntityManager entityManager;
 	
-	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("FirstName", "MiddleName", "LastName");
-	 
+	public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("FirstName", "MiddleName", "LastName","Mobile","Phone","fax","Email");
 	public static final EntityManager entityManager() {
 	        EntityManager em = new Floor().entityManager;
 	        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -183,6 +200,14 @@ public class Contact {
 	        this.id = id;
 	    }
 	   
+
+		public Customer getCustomer() {
+			return customer;
+		}
+
+		public void setCustomer(Customer customer) {
+			this.customer = customer;
+		}
 
 
 	    

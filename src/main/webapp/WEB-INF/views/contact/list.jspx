@@ -5,26 +5,29 @@ xmlns:page="urn:jsptagdir:/WEB-INF/tags/form"
 xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" 
 xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
 version="2.0">
-    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-       <div id="wrapper">
-           <div class="container-fluid">
-                     <div>
-                           <ol class="breadcrumb">
-                                  <li class="disabled"><a>Customer</a></li>
-                                  <li class="active"><span>List of Contacts</span></li>
-                           </ol>
-                     </div>
+		<div id="wrapper">
+			<div class="container-fluid">
+				<div>
+ 					<ol class="breadcrumb">
+						<li class="disabled"><a>Customer</a></li>
+						 <li><a href="/wsms/customer?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Customer</a></li>
+ 							<li class="active"><span>List of Contacts</span></li>
+					</ol>
+				</div>
                      
-                     <page:list id="pl_ph_com_smesoft_wsms_domain_customer" items="${contact}" buttonAction="/wsms/contact?form" buttonLabel="New Contact" searchAction="/wsms/contact/search">
-                      <table:table data="${contact}" id="l_ph_com_smesoft_wsms_domain_customer" path="/contact" >
-                  	   	  <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerfirstname" property="FirstName" />
-                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_customermiddlename" property="MiddleName" />
-                          <table:column id="c_ph_com_smesoft_wsms_domain_customer_customerlastname" property="LastName" />
-                          
-                       </table:table>
-                  </page:list>
-
-           </div>   
-       </div>   
+				<page:list id="pl_ph_com_smesoft_wsms_domain_customer" items="${contact}" buttonAction="/wsms/contact?form" buttonLabel="New Contact" searchAction="/wsms/contact/search">
+					<table:table data="${contact}" id="l_ph_com_smesoft_wsms_domain_customer" path="/contact" >
+						<table:column id="c_ph_com_smesoft_wsms_domain_customer_customerfirstname" property="FirstName" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_customer_customermiddlename" property="MiddleName" />
+      					<table:column id="c_ph_com_smesoft_wsms_domain_customer_customerlastname" property="LastName" />
+      					<table:column id="c_ph_com_smesoft_wsms_domain_customer_mobile" property="Mobile" />
+      					<table:column id="c_ph_com_smesoft_wsms_domain_customer_phone" property="Phone" />      					
+      					<table:column id="c_ph_com_smesoft_wsms_domain_customer_email" property="Email" />
+      					<table:column id="c_ph_com_smesoft_wsms_domain_customer_fax" property="Fax" />
+   					</table:table>
+   				</page:list>
+			</div>   
+		</div>   
 </div>

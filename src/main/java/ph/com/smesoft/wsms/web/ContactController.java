@@ -25,10 +25,10 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 import ph.com.smesoft.wsms.domain.Contact;
-import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.dto.SearchForm;
 import ph.com.smesoft.wsms.service.ContactService;
-import ph.com.smesoft.wsms.service.CustomerTypeService;
+import ph.com.smesoft.wsms.service.CustomerService;
+
 
 @Controller
 @RequestMapping("/contact")
@@ -36,9 +36,11 @@ public class ContactController{
 
 	@Autowired
     ContactService contactService;
-
+	@Autowired 
+	CustomerService customerservice;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "text/html")
+	
+	@RequestMapping( method = RequestMethod.POST, produces = "text/html")
     public String create(@Valid Contact contact, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
 		
 		if (bindingResult.hasErrors()) {
@@ -62,6 +64,7 @@ public class ContactController{
         uiModel.addAttribute("contact", contactService.findContact(id));
         uiModel.addAttribute("itemId", id);
         return "contact/show";
+       
     }
 
 	@RequestMapping(produces = "text/html")
@@ -107,6 +110,7 @@ public class ContactController{
 
 	void populateEditForm(Model uiModel, Contact contact) {
         uiModel.addAttribute("contact", contact);
+        uiModel.addAttribute("customer", customerservice.findAllCustomer());
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

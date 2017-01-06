@@ -162,11 +162,30 @@
 			    </td>
 			    <!-- SHOW End -->
 			    
-			      <!-- ADD button -->
-			
+			    <!-- SHOWcontact button -->
+			    <td class="utilbox">
+			    <spring:url value="${path}/${itemId}" var="contact_form_url">
+                    <spring:param name="contact" />
+                  </spring:url>
+			     <spring:url value="/resources/images/showcontacticon.png" var="show_image_url" />
+			      <spring:message arguments="${typeName}" code="entity_show_contact" var="show_label" htmlEscape="false" />
+			      <a href="${contact_form_url}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
+			        <img alt="${fn:escapeXml(show_label)}" class="shadowEffect" src="${show_image_url}" title="${fn:escapeXml(show_label)}" height="20" width="20"/>
+			      </a>
+			    </td>
+			    <!-- SHOW End -->
+			    
+			    <!-- ADD button -->
+			    <td class="utilbox">
+			    	<spring:url value="${pathToContact}" var="add_form_url" />
+			      <spring:url value="/resources/images/addcontacticon.png" var="add_image_url" />
+			      <spring:message arguments="${typeName}" code="entity_add_contact" var="add_label" htmlEscape="false" />
+			      <a href="${add_form_url}" alt="${fn:escapeXml(add_label)}" title="${fn:escapeXml(add_label)}">
+			        <img alt="${fn:escapeXml(add_label)}" class="shadowEffect" src="${add_image_url}" title="${fn:escapeXml(add_label)}" height="20" width="20"/>
+			      </a>
+			    </td>
 			    <!-- ADD End -->
-			    
-			    
+			     
 			     <!-- UPDATE button -->
 			    <c:if test="${update}">
 			      <td class="utilbox">

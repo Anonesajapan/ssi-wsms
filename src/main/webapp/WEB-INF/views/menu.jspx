@@ -4,15 +4,31 @@
 	<spring:url var="home" value="/resources/images/home.png" />
 	<spring:url var="maintenance" value="/resources/images/maintenance.png" />
 	<spring:url var="CustomerList" value="/resources/images/customerlist.png" />
-	<spring:url var="businessinfo" value="/resources/images/businessinfo.png" />   		          	
-
+	<spring:url var="businessinfo" value="/resources/images/businessinfo.png" />  
+    
+    <script>
+    $(function () {
+        $('.nav.li.a').click(function(){
+            if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    //Insert logic if you want a type of optional click/off click code
+                } 
+                else
+                {
+                    $(this).addClass('selected');
+                    //Insert event handling logic
+                }
+        })
+    });
+    </script>
+	
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<center>     	 	
 			<ul id="style-10" class="nav nav-pills navbar-nav side-nav nav-size">
 				<li><a href="/wsms/home/statistics" class="hvr-sweep-to-right"><img src="${home}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Home</p></a></li>
 		     	<li><a href="/wsms/maintenance" class="hvr-sweep-to-right"><img src="${maintenance}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Maintenance</p></a></li>
 				<li><a href="/wsms/customer" class="hvr-sweep-to-right"><img src="${CustomerList}" height="40" width="40" class="shadowEffect"/><p>CRM</p></a></li>
-				<li><a href="/wsms/businessInformation" class="hvr-sweep-to-right"><img src="${businessinfo}" alt="eqweqw Inc." height="40" width="40" class="shadowEffect"/><p>Business Information</p></a></li>
+			    <li><a href="/wsms/businessinfos/1" class="hvr-bounce-to-right"><img src="${businessinfo}" height="40" width="40" class="shadowEffect"/><p>Business Information</p></a></li>     
 			</ul>
 		</center>
 	</div>

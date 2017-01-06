@@ -122,7 +122,6 @@ public class CustomerTypeController {
         CustomerTypeService.updateCustomerType(CustomerType);
         return "redirect:/CustomerType/" + encodeUrlPathSegment(CustomerType.getId().toString(), httpServletRequest);
     }
-
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
         populateEditForm(uiModel, CustomerTypeService.findCustomerType(id));
@@ -131,16 +130,16 @@ public class CustomerTypeController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        CustomerType CustomerType = CustomerTypeService.findCustomerType(id);
-        CustomerTypeService.deleteCustomerType(CustomerType);
+        CustomerType customertype = CustomerTypeService.findCustomerType(id);
+        CustomerTypeService.deleteCustomerType(customertype);
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
         return "redirect:/CustomerType";
     }
 
-	void populateEditForm(Model uiModel, CustomerType CustomerType) {
-        uiModel.addAttribute("customertype", CustomerType);
+	void populateEditForm(Model uiModel, CustomerType customerType) {
+        uiModel.addAttribute("customertype", customerType);
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -153,6 +152,7 @@ public class CustomerTypeController {
         } catch (UnsupportedEncodingException uee) {}
         return pathSegment;
     }
+
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @ResponseBody

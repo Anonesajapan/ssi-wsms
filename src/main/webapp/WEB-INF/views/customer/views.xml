@@ -6,6 +6,9 @@
 <definition extends="defaultHome" name="customer/create">
         <put-attribute name="body" value="/WEB-INF/views/customer/create.jspx"/>
 </definition>
+<definition extends="defaultHome" name="customer/showcontact">
+        <put-attribute name="body" value="/WEB-INF/views/customer/showcontact.jspx"/>
+</definition>
 <definition extends="defaultHome" name="customer/update">
         <put-attribute name="body" value="/WEB-INF/views/customer/update.jspx"/>
 </definition>
