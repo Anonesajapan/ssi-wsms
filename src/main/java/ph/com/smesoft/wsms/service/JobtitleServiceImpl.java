@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ph.com.smesoft.wsms.domain.Barangay;
 import ph.com.smesoft.wsms.domain.Jobtitle;
 import ph.com.smesoft.wsms.repository.JobtitleRepository;
 
@@ -87,4 +88,22 @@ public class JobtitleServiceImpl implements JobtitleService{
 		  matcher = pattern.matcher(input);
 		  return matcher.matches();
 	}
+	
+
+	public List<Jobtitle> findAllJobtitleByDepartmentId(Long departmentId){
+	    TypedQuery<Jobtitle> searchResult = em.createNamedQuery("JobtitleByDepartmentId", Jobtitle.class);
+	    searchResult.setParameter("departmentId",departmentId);
+	    List<Jobtitle> result=searchResult.getResultList();
+	    return result;
+	 }
+
+	@Override
+	public List<Jobtitle> findAllBarangayByCityId(Long departmentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	
 }

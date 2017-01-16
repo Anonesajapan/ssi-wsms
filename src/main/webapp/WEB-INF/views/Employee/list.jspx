@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div 
+xmlns:jsp="http://java.sun.com/JSP/Page" 
+xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/custom" 
+xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+       <div id="wrapper">
+           <div class="container-fluid">
+                     <div>
+                           <ol class="breadcrumb">
+                                  <li class="active"><a>Employee</a></li>
+                                  <li class="active"><span>List of Registered Employee</span></li>
+                           </ol>
+                     </div>
+                     
+                     <page:list id="pl_ph_com_smesoft_wsms_domain_employee" items="${employee}" buttonAction="/wsms/Employee?form" buttonLabel="Register New Employee" searchAction="/wsms/Employee/search">
+                     
+                      <table:table data="${employee}" id="l_ph_com_smesoft_wsms_domain_employee" path="/Employee">
+                          <table:column id="c_ph_com_smesoft_wsms_domain_employee_id" property="id" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_employee_employeename" property="id" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_employee_department" property="Department" />
+                          <table:column id="c_ph_com_smesoft_wsms_domain_employee_jobtitle" property="Jobtitle" />
+                          </table:table>
+                  	</page:list>
+
+           </div>   
+       </div>   
+</div>

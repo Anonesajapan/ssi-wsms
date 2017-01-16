@@ -11,23 +11,37 @@ import ph.com.smesoft.wsms.service.ContactService;
 import ph.com.smesoft.wsms.domain.Customer;
 import ph.com.smesoft.wsms.service.CustomerService;
 import ph.com.smesoft.wsms.domain.CustomerType;
+import ph.com.smesoft.wsms.domain.Department;
+import ph.com.smesoft.wsms.domain.Employee;
 import ph.com.smesoft.wsms.domain.Floor;
 import ph.com.smesoft.wsms.domain.IndustryType;
+import ph.com.smesoft.wsms.domain.Jobtitle;
 import ph.com.smesoft.wsms.domain.LocationType;
+import ph.com.smesoft.wsms.domain.ProductType;
 import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.domain.Brand;
 import ph.com.smesoft.wsms.domain.Category;
 import ph.com.smesoft.wsms.service.BarangayService;
+import ph.com.smesoft.wsms.service.BrandService;
 import ph.com.smesoft.wsms.service.CategoryService;
 import ph.com.smesoft.wsms.domain.Street;
+import ph.com.smesoft.wsms.domain.Subcategory;
+import ph.com.smesoft.wsms.domain.Unit;
 import ph.com.smesoft.wsms.service.StreetService;
+import ph.com.smesoft.wsms.service.SubcategoryService;
+import ph.com.smesoft.wsms.service.UnitService;
 import ph.com.smesoft.wsms.domain.City;
 import ph.com.smesoft.wsms.service.CityService;
 import ph.com.smesoft.wsms.domain.Area;
 
 import ph.com.smesoft.wsms.service.CustomerTypeService;
+import ph.com.smesoft.wsms.service.DepartmentService;
+import ph.com.smesoft.wsms.service.EmployeeService;
 import ph.com.smesoft.wsms.service.FloorService;
 import ph.com.smesoft.wsms.service.IndustryTypeService;
+import ph.com.smesoft.wsms.service.JobtitleService;
 import ph.com.smesoft.wsms.service.LocationTypeService;
+import ph.com.smesoft.wsms.service.ProductTypeService;
 import ph.com.smesoft.wsms.service.AreaService;
 
 
@@ -369,13 +383,201 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         };
     }
 	
+	@Autowired
+    DepartmentService departmentService;
+
+	public Converter<Department, String> getDepartmentToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Department, java.lang.String>() {
+            public String convert(Department department) {
+                return new StringBuilder().append(department.getDepartmentName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Department> getIdToDepartmentConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Department>() {
+            public ph.com.smesoft.wsms.domain.Department convert(java.lang.Long id) {
+                return departmentService.findDepartment(id);
+            }
+        };
+    }
+
+	public Converter<String, Department> getStringToDepartmentConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Department>() {
+            public ph.com.smesoft.wsms.domain.Department convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Department.class);
+            }
+        };
+    }
+	
+
+	@Autowired
+    JobtitleService jobtitleService;
+
+	public Converter<Jobtitle, String> getJobtitleToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Jobtitle, java.lang.String>() {
+            public String convert(Jobtitle jobtitle) {
+                return new StringBuilder().append(jobtitle.getJobtitleName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Jobtitle> getIdToJobtitleConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Jobtitle>() {
+            public ph.com.smesoft.wsms.domain.Jobtitle convert(java.lang.Long id) {
+                return jobtitleService.findJobtitle(id);
+            }
+        };
+    }
+
+	public Converter<String, Jobtitle> getStringToJobtitleConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Jobtitle>() {
+            public ph.com.smesoft.wsms.domain.Jobtitle convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Jobtitle.class);
+            }
+        };
+    }
+	
+	@Autowired
+    EmployeeService employeeService;
+
+	public Converter<Employee, String> getEmployeeToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Employee, java.lang.String>() {
+            public String convert(Employee employee) {
+                return new StringBuilder().append(employee.getEmployeeName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Employee> getIdToEmployeeyConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Employee>() {
+            public ph.com.smesoft.wsms.domain.Employee convert(java.lang.Long id) {
+                return employeeService.findEmployee(id);
+            }
+        };
+    }
+
+	public Converter<String, Employee> getStringToEmployeeConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Employee>() {
+            public ph.com.smesoft.wsms.domain.Employee convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Employee.class);
+            }
+        };
+    }
+	
+	@Autowired
+    ProductTypeService producttypeService;
+
+	public Converter<ProductType, String> getProductTypeToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.ProductType, java.lang.String>() {
+            public String convert(ProductType productType) {
+                return new StringBuilder().append(productType.getProductTypeName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, ProductType> getIdToProductTypeConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.ProductType>() {
+            public ph.com.smesoft.wsms.domain.ProductType convert(java.lang.Long id) {
+                return producttypeService.findProductType(id);
+            }
+        };
+    }
+
+	public Converter<String, ProductType> getStringToProductTypeConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.ProductType>() {
+            public ph.com.smesoft.wsms.domain.ProductType convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), ProductType.class);
+            }
+        };
+    }
+	
+	
+	@Autowired
+    SubcategoryService subcategoryService;
+
+	public Converter<Subcategory, String> getSubcategoryToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Subcategory, java.lang.String>() {
+            public String convert(Subcategory subcategory) {
+                return new StringBuilder().append(subcategory.getSubcategoryName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Subcategory> getIdToSubcategoryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Subcategory>() {
+            public ph.com.smesoft.wsms.domain.Subcategory convert(java.lang.Long id) {
+                return subcategoryService.findSubcategory(id);
+            }
+        };
+    }
+
+	public Converter<String, Subcategory> getStringToSubcategoryConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Subcategory>() {
+            public ph.com.smesoft.wsms.domain.Subcategory convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Subcategory.class);
+            }
+        };
+    }
+	
+	
+	@Autowired
+	BrandService brandService;
+
+	public Converter<Brand, String> getBrandToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Brand, java.lang.String>() {
+            public String convert(Brand brand) {
+                return new StringBuilder().append(brand.getBrandName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Brand> getIdToBrandConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Brand>() {
+            public ph.com.smesoft.wsms.domain.Brand convert(java.lang.Long id) {
+                return brandService.findBrand(id);
+            }
+        };
+    }
+
+	public Converter<String, Brand> getStringToBrandConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Brand>() {
+            public ph.com.smesoft.wsms.domain.Brand convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Brand.class);
+            }
+        };
+    }
 	
 	
 	
 	
 	
-	
-	
+	@Autowired
+	UnitService unitService;
+
+	public Converter<Unit, String> getUnitToStringConverter() {
+        return new org.springframework.core.convert.converter.Converter<ph.com.smesoft.wsms.domain.Unit, java.lang.String>() {
+            public String convert(Unit unit) {
+                return new StringBuilder().append(unit.getUnitName()).toString();
+            }
+        };
+    }
+
+	public Converter<Long, Unit> getIdToUnitConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.Long, ph.com.smesoft.wsms.domain.Unit>() {
+            public ph.com.smesoft.wsms.domain.Unit convert(java.lang.Long id) {
+                return unitService.findUnit(id);
+            }
+        };
+    }
+
+	public Converter<String, Unit> getStringToUnitConverter() {
+        return new org.springframework.core.convert.converter.Converter<java.lang.String, ph.com.smesoft.wsms.domain.Unit>() {
+            public ph.com.smesoft.wsms.domain.Unit convert(String id) {
+                return getObject().convert(getObject().convert(id, Long.class), Unit.class);
+            }
+        };
+    }
 	
 	
 
@@ -422,6 +624,32 @@ public class ApplicationConversionServiceFactoryBean extends FormattingConversio
         registry.addConverter(getIdToCategoryConverter());
         registry.addConverter(getStringToCategoryConverter());
         
+        
+        registry.addConverter(getDepartmentToStringConverter());
+        registry.addConverter(getIdToDepartmentConverter());
+        registry.addConverter(getStringToDepartmentConverter());
+        
+        registry.addConverter(getJobtitleToStringConverter());
+        registry.addConverter(getIdToJobtitleConverter());
+        registry.addConverter(getStringToJobtitleConverter());
+        
+        
+        registry.addConverter(getProductTypeToStringConverter());
+        registry.addConverter(getIdToProductTypeConverter());
+        registry.addConverter(getStringToProductTypeConverter());
+        
+        
+        registry.addConverter(getSubcategoryToStringConverter());
+        registry.addConverter(getIdToSubcategoryConverter());
+        registry.addConverter(getStringToSubcategoryConverter());
+        
+        registry.addConverter(getBrandToStringConverter());
+        registry.addConverter(getIdToBrandConverter());
+        registry.addConverter(getStringToBrandConverter());
+        
+        registry.addConverter(getUnitToStringConverter());
+        registry.addConverter(getIdToUnitConverter());
+        registry.addConverter(getStringToUnitConverter());
     }
 
 	public void afterPropertiesSet() {

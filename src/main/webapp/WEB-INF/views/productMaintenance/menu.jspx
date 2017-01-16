@@ -34,13 +34,13 @@
 								<a href="/wsms/productType?page=1&amp;size=${empty param.size ? 10 : param.size}"><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>TYPE</h3></center></a>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 btn btn-default hvr-fade">
-								<a href=""><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>CATEGORY</h3></center></a>
+								<a href="/wsms/categorys?page=1&amp;size=${empty param.size ? 10 : param.size}"><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>CATEGORY</h3></center></a>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 btn btn-default hvr-fade">
-								<a href=""><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>SUB-CATEGORY</h3></center></a>
+								<a href="/wsms/Subcategory?page=1&amp;size=${empty param.size ? 10 : param.size}"><center><img src="${industrytype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>SUB-CATEGORY</h3></center></a>
 							</div>
 							<div class="col-xs-12 col-sm-12 col-md-3 col-lg-6 btn btn-default hvr-fade">
-								<a href=""><center><img src="${customertype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>BRAND</h3></center></a>
+								<a href="/wsms/Brand?page=1&amp;size=${empty param.size ? 10 : param.size}"><center><img src="${customertype}" class="shadowEffect img-responsive" style="width:80px;"/><h3>BRAND</h3></center></a>
 							</div>
 		       			</div>
 					</div> 

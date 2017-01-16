@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div 
+xmlns:jsp="http://java.sun.com/JSP/Page" 
+xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/sales" 
+xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields"
+xmlns:sales="urn:jsptagdir:/WEB-INF/tags/form/sales" 
+xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" 
+version="2.0">
+<script>
+var data = JSON.parse(window.localStorage.getItem("cart"))
+ $(document).ready(
+		
+   function(){
+	   var jsonString
+   		 doAjax();
+   		 var vals = [];
+   		 var items = [];
+	     var jsonString;
+		 $(document).on('input', function(){
+			 var lols = document.getElementsByName("senn");
+			 vals = [];
+			 for (var i=0; i &lt; lols.length; i++) {
+			   vals.push(lols[i].value);
+			 }
+			 //alert(vals.join(","));
+			  $('#subTotalTable').empty();
+			  doAjaxSubtotal();
+			  //alert(vals);
+ 
+		});		 
+		
+		$('#proceed').click(function() {
+			 alert(jsonString);
+			 doAjaxSaveOrder();
+	    });
+		 
+	
+		
+		 function doAjax(){
+			 $.ajax({
+	    		   type: "GET",
+	    	             url: "/ebms/sales/" + data,
+						
+	    	             data: {productId : data},
+	    	             success: function (data) {
+	    	            	//  alert(data);	
+	    	            	  
+	    	            	   var productDetails = eval('(' + data + ')');
+	    	            	   
+			    	              for (i in productDetails)
+			    	           	  {
+			    	            	  
+			    	            	  var row = $('<tr/>');
+			    	            		  $('#myTable').append(
+			    	            				    $('<td></td>', 
+									    	              { 
+						    	                		    text: productDetails[i][0]
+									    	              }
+							    	              		),
+			    	            					$('<td ></td>', 
+								    	              { 
+					    	                		    text: productDetails[i][1]
+								    	              }
+						    	              		),
+						    	              		$('<td></td>', 
+										    	              { 
+							    	                            text: productDetails[i][2]
+										    	              }
+								    	            ),
+								    	            $('<td></td>', 
+										    	              { 
+							    	                            text: productDetails[i][3]
+										    	              }
+								    	            ),
+								    	            $('<td></td>', 
+										    	              { 
+							    	                            text: productDetails[i][4]
+								    	           			  }
+								    	            ),
+								    	            $('<td><input type='number' style='color: black;' id='quantity'  value='1' min = '1' name='senn' /> </td>')
+								    	         
+						    	            		);
+						    	          $('#myTable').append(row);
+						    	          
+						    	   
+						    	  }
+			    	              
+			    	 			 var lols = document.getElementsByName("senn");
+			    				 vals = [];
+			    				 for (var i=0; i &lt; lols.length; i++) {
+			    				   vals.push(lols[i].value);
+			    				 }
+			    				 //alert(vals.join(","));
+			    				  $('#subTotalTable').empty();
+			    				  doAjaxSubtotal();
+			    	              
+	    	             },
+	    	            error: function (e){
+	    	             alert("Error" + e);
+	    	            } 
+	    	             
+	    	             	 
+	    	        });
+			 
+		 }
+		 
+		 function doAjaxSubtotal(){
+			 $.ajax({
+	    		   type: "GET",
+	    	             url: "/ebms/sales/" + data,
+						
+	    	             data: {productId : data},
+	    	             success: function (data) {
+	    	            	//  alert(data);	
+								var items = [];
+	    	            	   var productDetails = eval('(' + data + ')');
+	    	            	   var totalAmount = 0;
+			    	              for (i in productDetails)
+			    	           	  {
+			    	            	  
+			    	            	  var row = $('<tr/>');
+			    	            		  $('#subTotalTable').append(
+			    	            				    $('<td></td>', 
+										    	              { 
+							    	                            text: productDetails[i][4] * vals[i]
+			    	            				    
+								    	           			  }
+								    	            )
+								    	          	);
+						    	          $('#subTotalTable').append(row);
+						    	          
+						                  totalAmount += (productDetails[i][4] * vals[i]);
+						                  
+						    	          items.push({
+						    	              id: productDetails[i][0],
+						    	              price: productDetails[i][4],
+						    	          	  quantity: vals[i],
+						    	          	  subtotal: productDetails[i][4] * vals[i]
+						    	          });
+						    	          
+						    	          jsonString = JSON.stringify(items);
+						    	          
+						    	  } 
+			    	              $("#_totalAmount_id").val(totalAmount);
+			    	              
+			    	              
+				    	          
+				    	          
+			    	          
+	    	             },
+	    	            error: function (e){
+	    	             alert("Error" + e);
+	    	            } 
+	    	             
+	    	             	 
+	    	        });
+			 
+		 }
+		 
+		 function doAjaxSubtotal(){
+			 $.ajax({
+	    		   type: "GET",
+	    	             url: "/ebms/sales/" + data,
+						
+	    	             data: {productId : data},
+	    	             success: function (data) {
+	    	            	//  alert(data);	
+								var items = [];
+	    	            	   var productDetails = eval('(' + data + ')');
+	    	            	   var totalAmount = 0;
+			    	              for (i in productDetails)
+			    	           	  {
+			    	            	  
+			    	            	  var row = $('<tr/>');
+			    	            		  $('#subTotalTable').append(
+			    	            				    $('<td></td>', 
+										    	              { 
+							    	                            text: productDetails[i][4] * vals[i]
+			    	            				    
+								    	           			  }
+								    	            )
+								    	          	);
+						    	          $('#subTotalTable').append(row);
+						    	          
+						                  totalAmount += (productDetails[i][4] * vals[i]);
+						                  
+						    	          items.push({
+						    	              id: productDetails[i][0],
+						    	          	  quantity: parseInt(vals[i])
+						    	          });
+						    	          
+						    	  } 
+			    	              $("#_totalAmount_id").val(totalAmount);
+			    	              
+			    	              
+				    	          jsonString = JSON.stringify(items)
+				    	          
+			    	          
+	    	             },
+	    	            error: function (e){
+	    	             alert("Error" + e);
+	    	            } 
+	    	             
+	    	             	 
+	    	        });
+			 
+		 }
+		 
+		 function doAjaxSaveOrder(){
+			 $.ajax({
+				   type: "POST",
+  	             url: "/ebms/sales/" + jsonString,
+				 data:{productId : jsonString},
+  	             contentType:'application/json; charset=utf-8',
+  	             dataType: 'json'
+  	              
+  	             	 
+  	        }); 
+	    	        
+		 }
+    	    	
+ });		    	        
+
+</script> 
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+       <div id="wrapper">
+           <div class="container-fluid">
+                     <div>
+                           <ol class="breadcrumb">
+                                  <li class="disabled"><a>Order</a></li>
+                                  <li class="active"><span>Order Summary</span></li>
+                           </ol>
+                     </div> 
+                    
+                    <form:create id="fc_ph_com_smesoft_ebms_domain_sales" modelAttribute="sales" path="/sales" render="${empty dependencies}"  >
+                    <div class="col-sm-6">
+					 <table:inputwithvalue field="id" id="c_ph_com_smesoft_ebms_domain_sales_orderno" max="30" value="${salesOrderNo}" readonly="true" required="true" />
+                     </div>
+                     <div class="col-sm-6">
+                     <display:datetime field="orderDate" id="c_ph_com_smesoft_ebms_domain_sales_orderdate" dateTimePattern="yyyy-MM-dd"></display:datetime>
+                     </div>
+                     <div class="col-sm-6">
+                     <table:select field="customer" id="c_ph_com_smesoft_ebms_domain_sales_customername" items="${customer}" itemValue="id" required="true" path="/customer"></table:select>                     
+                     <br />
+                     </div>
+                
+                    <div class="row">
+                      	<div class="col-lg-10">
+                      
+		                    <table:tabletest id="l_ph_com_smesoft_ebms_domain_sales" path="/sales" >
+		                     		  <table:column id="c_ph_com_smesoft_ebms_domain_product_id" property="id" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_product_productname" property="productname" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_brand_brandname" property="brandname" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_product_description" property="description" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_product_unitprice" property="unitprice" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_sales_quantity" property="quantity" />
+		                        	  <table:column id="c_ph_com_smesoft_ebms_domain_sales_subtotal" property="subtotal" />
+		                     </table:tabletest>
+		                     
+						</div>
+						<div class="col-lg-2 subtotaltd" style="font-size:18.3px;padding-top:38px;margin-left:-200px;">
+                      
+		                      <table:subtotaltable id="l_ph_com_smesoft_ebms_domain_sales" path="/sales" >
+		                      </table:subtotaltable>
+		                 </div>
+                     </div>
+                    
+                      <div class="col-lg-6" style="float:right;">
+                      <table:input field="totalAmount" id="c_ph_com_smesoft_ebms_domain_sales_totalamount" max="30" readonly="true" required="true" />
+                      <table:input field="amountRender" id="c_ph_com_smesoft_ebms_domain_sales_amountrender" max="30" required="true" /> 
+                      </div>
+
+                 </form:create> 
+                    	
+                    
+                    
+           </div>   
+       </div>   
+ </div>

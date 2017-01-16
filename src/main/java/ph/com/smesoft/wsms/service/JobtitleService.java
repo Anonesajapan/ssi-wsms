@@ -25,13 +25,15 @@ public interface JobtitleService {
 
 
 		public abstract Jobtitle updateJobtitle(Jobtitle jobtitle);
+		
+		public List<Jobtitle> findAllBarangayByCityId(Long departmentId);
 
 	    //public abstract List<Floor> findFloorbyFloorNumber(String searchKeyword);
 	    //public abstract String findFloorbyFloorNumber(String searchString);
 		
 		public abstract List<Jobtitle> findJobtitlebyJobtitleNumber(String searchString);
 
-
+		public List<Jobtitle> findAllJobtitleByDepartmentId(Long departmentId);
 		public abstract long checkIfJobtitleExist(String Jobtitle);
 		public boolean checkRegex(String input, String user_pattern);
 

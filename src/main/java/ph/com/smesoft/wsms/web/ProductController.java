@@ -23,131 +23,131 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
-import ph.com.smesoft.wsms.domain.Department;
-import ph.com.smesoft.wsms.domain.Jobtitle;
+
+import com.google.gson.Gson;
+
+import ph.com.smesoft.wsms.domain.Product;
+import ph.com.smesoft.wsms.domain.ProductType;
+import ph.com.smesoft.wsms.domain.Subcategory;
+import ph.com.smesoft.wsms.domain.Unit;
+import ph.com.smesoft.wsms.domain.Brand;
+import ph.com.smesoft.wsms.domain.Category;
 import ph.com.smesoft.wsms.dto.SearchForm;
-import ph.com.smesoft.wsms.service.DepartmentService;
-import ph.com.smesoft.wsms.service.JobtitleService;
-
+import ph.com.smesoft.wsms.service.ProductService;
+import ph.com.smesoft.wsms.service.CategoryService;
+import ph.com.smesoft.wsms.service.ProductTypeService;
+import ph.com.smesoft.wsms.service.BrandService;
+import ph.com.smesoft.wsms.service.UnitService;
 @Controller
-@RequestMapping("/Jobtitle")
-public class JobtitleController {
+@RequestMapping("/Product")
+public class ProductController {
 
-	
 	@Autowired
-    JobtitleService JobtitleService;
-	
+    ProductService ProductService;
 	@Autowired
-	DepartmentService departmentService;
-	
+    ProductTypeService ProductTypeService;
+	@Autowired
+    CategoryService CategoryService;
+	@Autowired
+    BrandService BrandService;
+	@Autowired
+    UnitService UnitService;
 	
 	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String create(@Valid Product Product, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
 		
-		if(JobtitleService.checkIfJobtitleExist(Jobtitle.getJobtitleName().trim()) > 0){
-			 bindingResult.reject("Jobtitle", "Customer Type already exists.");
-			 
-			 populateEditForm(uiModel, Jobtitle);
-	        	 //uiModel.asMap().clear();
-	             
-             return "Jobtitle/create";
-        }
-	     if(!JobtitleService.checkRegex(Jobtitle.getJobtitleName().trim(), "^([^0-9]*)$")){
-	    	 bindingResult.reject("Jobtitle", "Invalid entry of Characters");
-	    	 populateEditForm(uiModel, Jobtitle);
-	        	 //uiModel.asMap().clear();
-	         return "Jobtitle/create";
-	    } 
+		
+	     
 		if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitle/create";
+            populateEditForm(uiModel, Product);
+            return "Product/create";
         }
         
-        /*if((int) JobtitleService.checkIfJobtitleExist(Jobtitle.getJobtitleName()) > 0){
-            bindingResult.reject("Jobtitle", "Floor Number already exists.");
-            return "Jobtitle/create";
+        /*if((int) ProductService.checkIfProductExist(Product.getProductName()) > 0){
+            bindingResult.reject("Product", "Floor Number already exists.");
+            return "Product/create";
         } */
         
-        if(!JobtitleService.checkRegex(Jobtitle.getJobtitleName().trim(), "^([^0-9]*)$")){
-        	 populateEditForm(uiModel, Jobtitle);
-        	 //uiModel.asMap().clear();
-             
-        	  return "Jobtitle/create";
-        }
+       
         
         uiModel.asMap().clear();
-        JobtitleService.saveJobtitle(Jobtitle);
-        return "redirect:/Jobtitle/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
+        ProductService.saveProduct(Product);
+        return "redirect:/Product/" + encodeUrlPathSegment(Product.getId().toString(), httpServletRequest);
     }
 	/*@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String create(@Valid Product Product, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitles/create";
+            populateEditForm(uiModel, Product);
+            return "Products/create";
         }
         uiModel.asMap().clear();
-        JobtitleService.saveJobtitle(Jobtitle);
-        return "redirect:/Jobtitles/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
+        ProductService.saveProduct(Product);
+        return "redirect:/Products/" + encodeUrlPathSegment(Product.getId().toString(), httpServletRequest);
     }*/
 
 	@RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
-        populateEditForm(uiModel, new Jobtitle());
-        return "Jobtitle/create";
+        populateEditForm(uiModel, new Product());
+        return "Product/create";
     }
 
 	@RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("jobtitle", JobtitleService.findJobtitle(id));
+        uiModel.addAttribute("product", ProductService.findProduct(id));
        // uiModel.addAttribute("itemId", id);
-        return "Jobtitle/show";
+        return "Product/show";
     }
 
+	
+	
 	@RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            uiModel.addAttribute("jobtitles", Jobtitle.findJobtitleEntries(firstResult, sizeNo, sortFieldName, sortOrder));
-            float nrOfPages = (float) JobtitleService.countAllJobtitles() / sizeNo;
+            uiModel.addAttribute("products", Product.findProductEntries(firstResult, sizeNo, sortFieldName, sortOrder));
+            float nrOfPages = (float) ProductService.countAllProducts() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            uiModel.addAttribute("jobtitles", Jobtitle.findAllJobtitles(sortFieldName, sortOrder));
+            uiModel.addAttribute("products", Product.findAllProducts(sortFieldName, sortOrder));
         }
-        return "Jobtitle/list";
+        return "Product/list";
     }
 
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-    public String update(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String update(@Valid Product Product, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitle/update";
+            populateEditForm(uiModel, Product);
+            return "Product/update";
         }
         uiModel.asMap().clear();
-        JobtitleService.updateJobtitle(Jobtitle);
-        return "redirect:/Jobtitle/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
+        ProductService.updateProduct(Product);
+        return "redirect:/Product/" + encodeUrlPathSegment(Product.getId().toString(), httpServletRequest);
     }
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        populateEditForm(uiModel, JobtitleService.findJobtitle(id));
-        return "Jobtitle/update";
+        populateEditForm(uiModel, ProductService.findProduct(id));
+        return "Product/update";
     }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-        JobtitleService.deleteJobtitle(Jobtitle);
+        Product Product = ProductService.findProduct(id);
+        ProductService.deleteProduct(Product);
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/Jobtitle";
+        return "redirect:/Product";
     }
 
-	void populateEditForm(Model uiModel, Jobtitle Jobtitle) {
-	    uiModel.addAttribute("department", Department.findAllDepartments());
-        uiModel.addAttribute("jobtitle", Jobtitle);
-    
+	void populateEditForm(Model uiModel, Product Product) {
+		uiModel.addAttribute("product", Product);
+		uiModel.addAttribute("producttype", ProductType.findAllProductTypes());
+		uiModel.addAttribute("category", Category.findAllCategorys());
+		uiModel.addAttribute("subcategory", Subcategory.findAllSubcategorys());
+		uiModel.addAttribute("brand", Brand.findAllBrands());
+		uiModel.addAttribute("unit", Unit.findAllUnits());
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -167,11 +167,11 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-            if (Jobtitle == null) {
+            Product Product = ProductService.findProduct(id);
+            if (Product == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<String>(Jobtitle.toJson(), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(Product.toJson(), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -183,8 +183,8 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            List<Jobtitle> result = JobtitleService.findAllJobtitles();
-            return new ResponseEntity<String>(Jobtitle.toJsonArray(result), headers, HttpStatus.OK);
+            List<Product> result = ProductService.findAllProducts();
+            return new ResponseEntity<String>(Product.toJsonArray(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -195,10 +195,10 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle jobtitle = Jobtitle.fromJsonToJobtitle(json);
-            JobtitleService.saveJobtitle(jobtitle);
+            Product product = Product.fromJsonToProduct(json);
+            ProductService.saveProduct(product);
             RequestMapping a = (RequestMapping) getClass().getAnnotation(RequestMapping.class);
-            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+jobtitle.getId().toString()).build().toUriString());
+            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+product.getId().toString()).build().toUriString());
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -210,8 +210,8 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            for (Jobtitle Jobtitle: Jobtitle.fromJsonArrayToJobtitles(json)) {
-                JobtitleService.saveJobtitle(Jobtitle);
+            for (Product Product: Product.fromJsonArrayToProducts(json)) {
+                ProductService.saveProduct(Product);
             }
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -224,9 +224,9 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle jobtitle = Jobtitle.fromJsonToJobtitle(json);
-            jobtitle.setId(id);
-            if (JobtitleService.updateJobtitle(jobtitle) == null) {
+            Product product = Product.fromJsonToProduct(json);
+            product.setId(id);
+            if (ProductService.updateProduct(product) == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<String>(headers, HttpStatus.OK);
@@ -240,11 +240,11 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-            if (Jobtitle == null) {
+            Product Product = ProductService.findProduct(id);
+            if (Product == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            JobtitleService.deleteJobtitle(Jobtitle);
+            ProductService.deleteProduct(Product);
             return new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -273,7 +273,17 @@ public class JobtitleController {
 	
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
 	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("jobtitles", JobtitleService.findJobtitlebyJobtitleNumber(searchForm.getSearchString()));
-		return "Jobtitle/list";
+		uiModel.addAttribute("products", ProductService.findProductbyProductNumber(searchForm.getSearchString()));
+		return "Product/list";
 	}
+	@RequestMapping(value="/{streetId}", method = RequestMethod.GET, params="form")
+	  public ResponseEntity<String> passAreaList(@PathVariable String streetId, Model uiModel){
+	  HttpHeaders headers = new HttpHeaders();
+	  Long id = Long.valueOf(streetId);
+	  List<ProductType> result = ProductTypeService.getProductTypeName(id);
+	  String json = new Gson().toJson(result);
+	  return new ResponseEntity<String>(json, headers, HttpStatus.OK);
+	 }
 }
+
+

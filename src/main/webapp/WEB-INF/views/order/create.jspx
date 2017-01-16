@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" 
+xmlns:jsp="http://java.sun.com/JSP/Page" 
+xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" 
+xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+xmlns:sample="urn:jsptagdir:/WEB-INF/tags/form/custom" 
+xmlns:display="urn:jsptagdir:/WEB-INF/tags/form/fields" 
+xmlns:spring="http://www.springframework.org/tags" version="2.0">
+
+
+   
+ 
+	<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+  
+   
+		<div id="wrapper">
+			<div class="container-fluid">
+			
+                     
+				
+					<sample:tablewithcheck data="${products}" id="l_ph_com_smesoft_wsms_domain_Product" path="/order">
+						<h2>Select Product</h2>
+						
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_ProductName" property="producttype" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_BrandName" property="brand" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_CategoryName" property="category" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_SubcategoryName" property="subcategory" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_UnitName" property="unit" />
+						<table:column id="c_ph_com_smesoft_wsms_domain_Product_PriceName" property="price" />
+						
+						
+					</sample:tablewithcheck>
+				
+			</div>   
+		</div>   
+</div>

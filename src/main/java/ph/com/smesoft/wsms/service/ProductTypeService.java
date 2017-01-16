@@ -35,4 +35,7 @@ public interface ProductTypeService {
 		public abstract long checkIfProductTypeExist(String ProductType);
 		public boolean checkRegex(String input, String user_pattern);
 
+
+		public abstract List<ProductType> getProductTypeName(Long id);
+
 }

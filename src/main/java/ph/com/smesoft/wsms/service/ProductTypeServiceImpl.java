@@ -11,7 +11,6 @@ import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import ph.com.smesoft.wsms.domain.ProductType;
 import ph.com.smesoft.wsms.repository.ProductTypeRepository;
 
@@ -80,11 +79,19 @@ public class ProductTypeServiceImpl implements ProductTypeService{
 	    return count;
 	 }
 	
+
+	
 	public boolean checkRegex(String input, String user_pattern){
 		Pattern pattern = Pattern.compile(user_pattern);
 		Matcher matcher;
 		
 		  matcher = pattern.matcher(input);
 		  return matcher.matches();
+	}
+
+	@Override
+	public List<ProductType> getProductTypeName(Long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

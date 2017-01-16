@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
@@ -29,117 +28,82 @@ import flexjson.JSONSerializer;
 
 @NamedQueries({
 @NamedQuery(
-   name = "findJobtitleByJobtitleNum",
-   query = "SELECT b FROM Jobtitle b WHERE LOWER(b.JobtitleName) LIKE LOWER(:searchString) "
+   name = "findUnitByUnitNum",
+   query = "SELECT b FROM Unit b WHERE LOWER(b.UnitName) LIKE LOWER(:searchString) "
    ),
 @NamedQuery(
-		   name = "countJobtitle",
-		   query = "SELECT b.JobtitleName FROM Jobtitle b WHERE LOWER(b.JobtitleName) = LOWER(:search) "
-),
-@NamedQuery(name = "countJobtitlebyDepartmentName", 
-query = "SELECT COUNT(b) FROM Jobtitle b WHERE b.department.DepartmentName = :DepartmentName"
-),
-@NamedQuery(
-	    name = "firstJobtitleInsertedRecord",
-	   query = "SELECT b FROM Jobtitle b ORDER BY b.id ASC"
-	),
-@NamedQuery(
-	    name = "checkIfJobtitleExist",
-	   query = "SELECT COUNT(b.JobtitleName) FROM Jobtitle b WHERE b.JobtitleName = :JobtitleName"
-	),
-@NamedQuery(
-        name = "findAllJobtitleByDepartmentId",
-        query = "SELECT b FROM Jobtitle b WHERE b.department.id = :departmentId"
-        ),
-@NamedQuery(
-         name = "JobtitleByDepartmentId",
-         query = "SELECT b.id, b.JobtitleName FROM Jobtitle b, Department c "
-           + "WHERE b.department = c and c.id = :departmentId"
-         )
-
+		   name = "countUnit",
+		   query = "SELECT b.UnitName FROM Unit b WHERE LOWER(b.UnitName) = LOWER(:search) "
+)
 })
-
 
 @Configurable
 @Entity
-public class Jobtitle {
+public class Unit {
 
-   
-
-
-
-
-	/**
+    /**
      */
 	@Column(unique=true)
     @Size(min=1, max=30)
-    private String JobtitleName;
+    private String UnitName;
 	
-	private String jobtitleDescription;
+	private String unitDescription;
     
     
-	@ManyToOne
-	private Department department;
-	
+
     
 
 
-	 public Department getDepartment() {
-			return department;
-		}
 
-		public void setDepartment(Department department) {
-			this.department = department;
-		}
 
 	@PersistenceContext
     transient EntityManager entityManager;
 
-    public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("Department","JobtitleName","Description");
+    public static final List<String> fieldNames4OrderClauseFilter = java.util.Arrays.asList("UnitName");
 
     public static final EntityManager entityManager() {
-        EntityManager em = new Jobtitle().entityManager;
+        EntityManager em = new Unit().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
 
-    public static long countJobtitle() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Jobtitle o", Long.class).getSingleResult();
+    public static long countUnit() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM Unit o", Long.class).getSingleResult();
     }
 
-    public static List<Jobtitle> findAllJobtitles() {
-        return entityManager().createQuery("SELECT o FROM Jobtitle o", Jobtitle.class).getResultList();
+    public static List<Unit> findAllUnits() {
+        return entityManager().createQuery("SELECT o FROM Unit o", Unit.class).getResultList();
     }
 
-    public static List<Jobtitle> findAllJobtitles(String sortFieldName, String sortOrder) {
-        String jpaQuery = "SELECT o FROM Jobtitle o";
+    public static List<Unit> findAllUnits(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Unit o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
             jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
                 jpaQuery = jpaQuery + " " + sortOrder;
             }
         }
-        return entityManager().createQuery(jpaQuery, Jobtitle.class).getResultList();
+        return entityManager().createQuery(jpaQuery, Unit.class).getResultList();
     }
 
-    public static Jobtitle findJobtitle(Long id) {
+    public static Unit findUnit(Long id) {
         if (id == null) return null;
-        return entityManager().find(Jobtitle.class, id);
+        return entityManager().find(Unit.class, id);
     }
 
-    public static List<Jobtitle> findJobtitleEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Jobtitle o", Jobtitle.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<Unit> findUnitEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Unit o", Unit.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
-    public static List<Jobtitle> findJobtitleEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
-        String jpaQuery = "SELECT o FROM Jobtitle o";
+    public static List<Unit> findUnitEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Unit o";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
             jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
                 jpaQuery = jpaQuery + " " + sortOrder;
             }
         }
-        return entityManager().createQuery(jpaQuery, Jobtitle.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery(jpaQuery, Unit.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
     @Transactional
@@ -154,7 +118,7 @@ public class Jobtitle {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Jobtitle attached = Jobtitle.findJobtitle(this.id);
+            Unit attached = Unit.findUnit(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -172,9 +136,9 @@ public class Jobtitle {
     }
 
     @Transactional
-    public Jobtitle merge() {
+    public Unit merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        Jobtitle merged = this.entityManager.merge(this);
+        Unit merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
@@ -186,20 +150,20 @@ public class Jobtitle {
    
 
 
-	public String getJobtitleName() {
-		return JobtitleName;
+	public String getUnitName() {
+		return UnitName;
 	}
 
-	public void setJobtitleName(String jobtitleName) {
-		JobtitleName = jobtitleName;
+	public void setUnitName(String unitName) {
+		UnitName = unitName;
 	}
 	
-	public String getJobtitleDescription() {
-		return jobtitleDescription;
+	public String getUnitDescription() {
+		return unitDescription;
 	}
 
-	public void setJobtitleDescription(String jobtitleDescription) {
-		this.jobtitleDescription = jobtitleDescription;
+	public void setUnitDescription(String unitDescription) {
+		this.unitDescription = unitDescription;
 	}
 
 
@@ -240,23 +204,23 @@ public class Jobtitle {
         .include(fields).exclude("*.class").deepSerialize(this);
     }
 
-    public static Jobtitle fromJsonToJobtitle(String json) {
-        return new JSONDeserializer<Jobtitle>()
-        .use(null, Jobtitle.class).deserialize(json);
+    public static Unit fromJsonToUnit(String json) {
+        return new JSONDeserializer<Unit>()
+        .use(null, Unit.class).deserialize(json);
     }
 
-    public static String toJsonArray(Collection<Jobtitle> collection) {
+    public static String toJsonArray(Collection<Unit> collection) {
         return new JSONSerializer()
         .exclude("*.class").deepSerialize(collection);
     }
 
-    public static String toJsonArray(Collection<Jobtitle> collection, String[] fields) {
+    public static String toJsonArray(Collection<Unit> collection, String[] fields) {
         return new JSONSerializer()
         .include(fields).exclude("*.class").deepSerialize(collection);
     }
 
-    public static Collection<Jobtitle> fromJsonArrayToJobtitles(String json) {
-        return new JSONDeserializer<List<Jobtitle>>()
-        .use("values", Jobtitle.class).deserialize(json);
+    public static Collection<Unit> fromJsonArrayToUnits(String json) {
+        return new JSONDeserializer<List<Unit>>()
+        .use("values", Unit.class).deserialize(json);
     }
 }

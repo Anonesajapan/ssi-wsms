@@ -18,6 +18,7 @@ xmlns:spring="http://www.springframework.org/tags" version="2.0">
             </div>
     
 				<form:create id="fc_ph_com_smesoft_wsms_domain_Jobtitle" modelAttribute="jobtitle" path="/Jobtitle" render="${empty dependencies}" >
+					<field:select field="department" id="c_ph_com_smesoft_wsms_domain_Department_DepartmentName" itemValue="id" items="${department}" required="true" path="/Department" ></field:select>
 					<field:input field="JobtitleName" id="c_ph_com_smesoft_wsms_domain_Jobtitle_JobtitleName" max="30" min="3" required="true" />
 					<field:textarea field="JobtitleDescription" id="c_ph_com_smesoft_wsms_domain_Jobtitle_JobtitleDescription" />
 				</form:create>

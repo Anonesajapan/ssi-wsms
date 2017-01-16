@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/sales" 
+        xmlns:jsp="http://java.sun.com/JSP/Page" 
+        xmlns:page="urn:jsptagdir:/WEB-INF/tags/form/sales" 
+        version="2.0">
+       
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <div id="wrapper">
+        <div class="container-fluid">
+            <div>
+                <ol class="breadcrumb">
+                  <li class="disabled"><a>Sales</a></li>
+                  <li><a href="/ebms/sales?page=1&amp;size=${empty param.size ? 10 : param.size}">List of Sales</a></li>
+                  <li class="active"><span>Sales Information</span></li>
+                 </ol>
+            </div>
+                  <page:show id="ps_ph_com_smesoft_ebms_domain_sales" object="${sales}" path="/sales" z="XmgSUNTaw/S287IKejvqSXTBaWA=">
+                  <div class="row " style="margin-left:100px;">
+                  <br/>
+               
+       				<div class="col-xs-5 col-sm-5 col-lg-5">
+       					<div class="row">
+                    		 <field:display field="id" id="s_ph_com_smesoft_ebms_domain_sales_orderno" object="${sales}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                	 		 <field:display field="customer" id="s_ph_com_smesoft_ebms_domain_sales_customername" object="${sales}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>               	  
+                 		</div>
+                 	</div>
+                 	 
+                 	  <div class="col-xs-5 col-sm-5 col-lg-5 col-lg-offset-1">
+                 	 	<div class="row">
+                 	  		<field:display field="orderDate" id="s_ph_com_smesoft_ebms_domain_sales_orderdate" object="${sales}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                 		</div>
+                   </div>
+                   </div>
+                  
+                     <field:table data="${orderdetails}" id="l_ph_com_smesoft_ebms_domain_orderdetails" path="/sales">
+	                  	  <field:column id="c_ph_com_smesoft_ebms_domain_orderdetail_productid" property="productId" />
+	                  	  <field:column id="c_ph_com_smesoft_ebms_domain_orderdetail_quantity" property="quantity" />
+	                  	  <field:column id="c_ph_com_smesoft_ebms_domain_orderdetail_price" property="price" />
+	                  	  <field:column id="c_ph_com_smesoft_ebms_domain_orderdetail_subtotal" property="subtotal" />
+                  	  </field:table>
+                  	  
+                  	  <div class="row " style="margin-left:100px;">
+                  	  <div class="col-xs-5 col-sm-5 col-lg-5" >
+                  	  <field:display field="totalAmount" id="s_ph_com_smesoft_ebms_domain_sales_totalamount" object="${sales}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>
+                 	  </div>
+                 	  <div class="col-xs-4 col-sm-4 col-lg-5 col-lg-offset-1">
+                 	  <field:display field="amountRender" id="s_ph_com_smesoft_ebms_domain_sales_amountrender" object="${sales}" z="bpSs/fEBb5fUYBhFsl15fVNLxh0="/>   
+      				  </div>
+      			     </div>
+      </page:show>
+        </div>   
+    </div>   
+</div>

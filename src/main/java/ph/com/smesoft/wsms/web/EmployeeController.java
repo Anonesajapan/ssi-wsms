@@ -1,11 +1,12 @@
 package ph.com.smesoft.wsms.web;
 
+
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,131 +24,129 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
+import com.google.gson.Gson;
+import ph.com.smesoft.wsms.domain.Area;
+import ph.com.smesoft.wsms.domain.Barangay;
+import ph.com.smesoft.wsms.domain.City;
+import ph.com.smesoft.wsms.domain.Contact;
+import ph.com.smesoft.wsms.domain.Customer;
+import ph.com.smesoft.wsms.domain.CustomerType;
 import ph.com.smesoft.wsms.domain.Department;
+import ph.com.smesoft.wsms.domain.Employee;
 import ph.com.smesoft.wsms.domain.Jobtitle;
 import ph.com.smesoft.wsms.dto.SearchForm;
-import ph.com.smesoft.wsms.service.DepartmentService;
+import ph.com.smesoft.wsms.reference.DayOff;
+import ph.com.smesoft.wsms.reference.EmploymentStatus;
+import ph.com.smesoft.wsms.reference.Gender;
+import ph.com.smesoft.wsms.service.AreaService;
+import ph.com.smesoft.wsms.service.EmployeeService;
 import ph.com.smesoft.wsms.service.JobtitleService;
+import ph.com.smesoft.wsms.service.DepartmentService;
+
 
 @Controller
-@RequestMapping("/Jobtitle")
-public class JobtitleController {
-
+@RequestMapping("/Employee")
+public class EmployeeController {
 	
 	@Autowired
-    JobtitleService JobtitleService;
-	
+    EmployeeService employeeService;
+	@Autowired
+	JobtitleService jobtitleService;
 	@Autowired
 	DepartmentService departmentService;
-	
-	
-	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
 		
-		if(JobtitleService.checkIfJobtitleExist(Jobtitle.getJobtitleName().trim()) > 0){
-			 bindingResult.reject("Jobtitle", "Customer Type already exists.");
-			 
-			 populateEditForm(uiModel, Jobtitle);
-	        	 //uiModel.asMap().clear();
-	             
-             return "Jobtitle/create";
-        }
-	     if(!JobtitleService.checkRegex(Jobtitle.getJobtitleName().trim(), "^([^0-9]*)$")){
-	    	 bindingResult.reject("Jobtitle", "Invalid entry of Characters");
-	    	 populateEditForm(uiModel, Jobtitle);
-	        	 //uiModel.asMap().clear();
-	         return "Jobtitle/create";
-	    } 
-		if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitle/create";
-        }
-        
-        /*if((int) JobtitleService.checkIfJobtitleExist(Jobtitle.getJobtitleName()) > 0){
-            bindingResult.reject("Jobtitle", "Floor Number already exists.");
-            return "Jobtitle/create";
-        } */
-        
-        if(!JobtitleService.checkRegex(Jobtitle.getJobtitleName().trim(), "^([^0-9]*)$")){
-        	 populateEditForm(uiModel, Jobtitle);
-        	 //uiModel.asMap().clear();
-             
-        	  return "Jobtitle/create";
-        }
-        
-        uiModel.asMap().clear();
-        JobtitleService.saveJobtitle(Jobtitle);
-        return "redirect:/Jobtitle/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
-    }
-	/*@RequestMapping(method = RequestMethod.POST, produces = "text/html")
-    public String create(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+	@RequestMapping(method = RequestMethod.POST, produces = "text/html")
+    public String create(@Valid Employee employee, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitles/create";
-        }
-        uiModel.asMap().clear();
-        JobtitleService.saveJobtitle(Jobtitle);
-        return "redirect:/Jobtitles/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
-    }*/
-
+            populateEditForm(uiModel, employee);       
+            
+          
+            return "Employee/create";
+        }      
+        employeeService.saveEmployee(employee);
+        return "redirect:/Employee/" + encodeUrlPathSegment(employee.getId().toString(), httpServletRequest);	
+     }
+	
 	@RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
-        populateEditForm(uiModel, new Jobtitle());
-        return "Jobtitle/create";
+        populateEditForm(uiModel, new Employee());
+         return "Employee/create";
     }
-
+	
+	
 	@RequestMapping(value = "/{id}", produces = "text/html")
     public String show(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("jobtitle", JobtitleService.findJobtitle(id));
-       // uiModel.addAttribute("itemId", id);
-        return "Jobtitle/show";
+        uiModel.addAttribute("employee", employeeService.findEmployee(id));
+        uiModel.addAttribute("itemId", id);
+ 
+        return "Employee/show";
     }
+		
 
+	
+	@RequestMapping(params = "/{id}/add", produces = "text/html")
+    public String addForm(Model uiModel) {
+        populateEditForm(uiModel, new Employee());
+        return "Employee/add";
+    }
+	
+
+	
 	@RequestMapping(produces = "text/html")
     public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
-            uiModel.addAttribute("jobtitles", Jobtitle.findJobtitleEntries(firstResult, sizeNo, sortFieldName, sortOrder));
-            float nrOfPages = (float) JobtitleService.countAllJobtitles() / sizeNo;
+            uiModel.addAttribute("employee", Employee.findEmployeeEntries(firstResult, sizeNo, sortFieldName, sortOrder));
+            uiModel.addAttribute("list", Contact.findContactEntries(firstResult, sizeNo, sortFieldName, sortOrder));
+            float nrOfPages = (float) employeeService.countAllEmployee() / sizeNo;
             uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            uiModel.addAttribute("jobtitles", Jobtitle.findAllJobtitles(sortFieldName, sortOrder));
+            uiModel.addAttribute("employee", Employee.findAllEmployee(sortFieldName, sortOrder));
+           
         }
-        return "Jobtitle/list";
+        return "Employee/list";
     }
-
+	
+	
 	@RequestMapping(method = RequestMethod.PUT, produces = "text/html")
-    public String update(@Valid Jobtitle Jobtitle, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+    public String update(@Valid Employee employee, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {
-            populateEditForm(uiModel, Jobtitle);
-            return "Jobtitle/update";
+            populateEditForm(uiModel, employee);
+            return "Employee/update";
         }
         uiModel.asMap().clear();
-        JobtitleService.updateJobtitle(Jobtitle);
-        return "redirect:/Jobtitle/" + encodeUrlPathSegment(Jobtitle.getId().toString(), httpServletRequest);
+        employeeService.updateEmployee(employee);
+        return "redirect:/Employee/" + encodeUrlPathSegment(employee.getId().toString(), httpServletRequest);
     }
 
 	@RequestMapping(value = "/{id}", params = "form", produces = "text/html")
     public String updateForm(@PathVariable("id") Long id, Model uiModel) {
-        populateEditForm(uiModel, JobtitleService.findJobtitle(id));
-        return "Jobtitle/update";
+        populateEditForm(uiModel, employeeService.findEmployee(id));
+        return "Employee/update";
     }
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     public String delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-        JobtitleService.deleteJobtitle(Jobtitle);
+		Employee employee = employeeService.findEmployee(id);
+		employeeService.deleteEmployee(employee);
         uiModel.asMap().clear();
         uiModel.addAttribute("page", (page == null) ? "1" : page.toString());
         uiModel.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/Jobtitle";
+        return "redirect:/Employee";
     }
-
-	void populateEditForm(Model uiModel, Jobtitle Jobtitle) {
-	    uiModel.addAttribute("department", Department.findAllDepartments());
-        uiModel.addAttribute("jobtitle", Jobtitle);
+	
+	void populateEditForm(Model uiModel, Employee employee) {
+        uiModel.addAttribute("employee", employee);
+        uiModel.addAttribute("jobtitle", Jobtitle.findAllJobtitles());
+        uiModel.addAttribute("department", Department.findAllDepartments());
+        uiModel.addAttribute("gender", Arrays.asList(Gender.values()));
+        uiModel.addAttribute("dayoff1", Arrays.asList(DayOff.values()));
+        uiModel.addAttribute("dayoff2", Arrays.asList(DayOff.values()));
+        uiModel.addAttribute("employmentstatus", Arrays.asList(EmploymentStatus.values()));
+      
     
+        
     }
 
 	String encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
@@ -160,31 +159,31 @@ public class JobtitleController {
         } catch (UnsupportedEncodingException uee) {}
         return pathSegment;
     }
-
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> showJson(@PathVariable("id") Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-            if (Jobtitle == null) {
+        	Employee employee = employeeService.findEmployee(id);
+            if (employee == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<String>(Jobtitle.toJson(), headers, HttpStatus.OK);
+            return new ResponseEntity<String>(employee.toJson(), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+	
 	@RequestMapping(headers = "Accept=application/json")
     @ResponseBody
     public ResponseEntity<String> listJson() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=utf-8");
         try {
-            List<Jobtitle> result = JobtitleService.findAllJobtitles();
-            return new ResponseEntity<String>(Jobtitle.toJsonArray(result), headers, HttpStatus.OK);
+            List<Employee> result = employeeService.findAllEmployee();
+            return new ResponseEntity<String>(Employee.toJsonArray(result), headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -195,23 +194,23 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle jobtitle = Jobtitle.fromJsonToJobtitle(json);
-            JobtitleService.saveJobtitle(jobtitle);
+        	Employee employee = ph.com.smesoft.wsms.domain.Employee.fromJsonToEmployee(json);
+        	employeeService.saveEmployee(employee);
             RequestMapping a = (RequestMapping) getClass().getAnnotation(RequestMapping.class);
-            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+jobtitle.getId().toString()).build().toUriString());
+            headers.add("Location",uriBuilder.path(a.value()[0]+"/"+employee.getId().toString()).build().toUriString());
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+	
 	@RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<String> createFromJsonArray(@RequestBody String json) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            for (Jobtitle Jobtitle: Jobtitle.fromJsonArrayToJobtitles(json)) {
-                JobtitleService.saveJobtitle(Jobtitle);
+            for (Employee employee: Employee.fromJsonArrayToEmployee(json)) {
+            	employeeService.saveEmployee(employee);
             }
             return new ResponseEntity<String>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -224,9 +223,9 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle jobtitle = Jobtitle.fromJsonToJobtitle(json);
-            jobtitle.setId(id);
-            if (JobtitleService.updateJobtitle(jobtitle) == null) {
+        	Employee employee = ph.com.smesoft.wsms.domain.Employee.fromJsonToEmployee(json);
+        	employee.setId(id);
+            if (employeeService.updateEmployee(employee) == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<String>(headers, HttpStatus.OK);
@@ -240,40 +239,31 @@ public class JobtitleController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         try {
-            Jobtitle Jobtitle = JobtitleService.findJobtitle(id);
-            if (Jobtitle == null) {
+        	Employee employee = employeeService.findEmployee(id);
+            if (employee == null) {
                 return new ResponseEntity<String>(headers, HttpStatus.NOT_FOUND);
             }
-            JobtitleService.deleteJobtitle(Jobtitle);
+            employeeService.deleteEmployee(employee);
             return new ResponseEntity<String>(headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>("{\"ERROR\":"+e.getMessage()+"\"}", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-/*
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public List<Floor> listofFloor(@RequestParam("floorNumber") String searchKeyword) {
-		System.out.println("First");
-		List<Floor> searchResult = floorService.findFloorbyFloorNumber(searchKeyword);
-		System.out.println("2nd");
-		System.out.println("THird" + searchResult);
-		return searchResult;
-	}*/
 	
-	/*@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public ResponseEntity<String> listofFloor(@ModelAttribute("SearchCriteria") SearchForm searchForm) {
+	@RequestMapping(value="/{departmentId}", method=RequestMethod.GET, params="jobtitle")
+	  public ResponseEntity<String> passJobtitleList(@PathVariable Integer departmentId, Model uiModel){
 		HttpHeaders headers = new HttpHeaders();
-		System.out.println("First");
-		String searchResult = floorService.findFloorbyFloorNumber(searchForm.getSearchString());
-		System.out.println("2nd");
-		System.out.println("THird" + searchResult);
-		//return searchResult;
-		return new ResponseEntity<String>(searchResult,headers, HttpStatus.OK);
-	}*/
-	
-	@RequestMapping(value = "/search", method = { RequestMethod.GET })
-	public String listofCity(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
-		uiModel.addAttribute("jobtitles", JobtitleService.findJobtitlebyJobtitleNumber(searchForm.getSearchString()));
-		return "Jobtitle/list";
+		Long jobtitleIdtoLong = Long.valueOf(departmentId.longValue());
+		List<Jobtitle> jobtitleName = jobtitleService.findAllJobtitleByDepartmentId(jobtitleIdtoLong);
+		String json = new Gson().toJson(jobtitleName);
+		return new ResponseEntity<String>(json, headers, HttpStatus.OK);
 	}
+		
+
+	@RequestMapping(value = "/search", method = { RequestMethod.GET })
+	public String listofCustomer(@ModelAttribute("SearchCriteria") SearchForm searchForm, Model uiModel) {
+		uiModel.addAttribute("customer", employeeService.findEmployeebyid(searchForm.getSearchString()));
+		return "Employee/list";
+	}
+	
 }
